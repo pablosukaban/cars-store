@@ -8,7 +8,7 @@ const router = new Router();
 
 router.use('/user', userRouter);
 router.use('/car', carRouter);
-router.use('/model', modelRouter);
+router.use('/car_model', modelRouter);
 router.use('/make', makeOfCarRouter);
 
 export default router;

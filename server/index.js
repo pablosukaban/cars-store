@@ -4,6 +4,7 @@ import sequelize from './db.js';
 import models from './models/models.js';
 import cors from 'cors';
 import router from './routes/index.js';
+import errorHandler from './middleware/ErrorHandlingMiddleware.js';
 
 dotenv.config();
 
@@ -14,9 +15,10 @@ app.use(cors());
 app.use(express.json());
 app.use('/api', router);
 
-app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Working' });
-});
+// Обработка ошибки, подключается в последнюю очередь
+// будет вызвана функия errorHandler компонента ErrorHandlingMiddleware.js
+// замыкающий, поэтому в нем не вызвали next()
+app.use(errorHandler);
 
 const start = async () => {
     try {
