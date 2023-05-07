@@ -27,14 +27,14 @@ const Car = sequelize.define('car', {
     car_image: { type: DataTypes.STRING, allowNull: false },
 });
 
-const CarModel = sequelize.define('car_models', {
+const CarModel = sequelize.define('car_model', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     car_model_name: { type: DataTypes.STRING, allowNull: false, unique: true },
 });
 
-const CarMake = sequelize.define('car_makes', {
+const CarBrand = sequelize.define('car_brand', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    make_of_the_car_name: {
+    brand_name: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
@@ -47,7 +47,7 @@ const CarInfo = sequelize.define('car_info', {
     description: { type: DataTypes.STRING, allowNull: false },
 });
 
-const ModelMake = sequelize.define('model_make', {
+const ModelBrand = sequelize.define('model_brand', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
@@ -60,8 +60,8 @@ BasketCar.belongsTo(Basket);
 CarModel.hasMany(Car);
 Car.belongsTo(CarModel);
 
-CarMake.hasMany(Car);
-Car.belongsTo(CarMake);
+CarBrand.hasMany(Car);
+Car.belongsTo(CarBrand);
 
 Car.hasMany(BasketCar);
 BasketCar.belongsTo(Car);
@@ -69,8 +69,8 @@ BasketCar.belongsTo(Car);
 Car.hasMany(CarInfo);
 CarInfo.belongsTo(Car);
 
-CarMake.belongsToMany(CarModel, { through: ModelMake });
-CarModel.belongsToMany(CarMake, { through: ModelMake });
+CarBrand.belongsToMany(CarModel, { through: ModelBrand });
+CarModel.belongsToMany(CarBrand, { through: ModelBrand });
 
 export default {
     User,
@@ -78,7 +78,7 @@ export default {
     BasketCar,
     Car,
     CarModel,
-    CarMake,
+    CarBrand,
     CarInfo,
-    ModelMake,
+    ModelBrand,
 };
