@@ -4,8 +4,8 @@ const { CarBrand } = Models;
 
 class BrandController {
     async create(req, res) {
-        const { brand_name } = req.body;
-        const brand = await CarBrand.create({ brand_name });
+        const { car_brand_name } = req.body;
+        const brand = await CarBrand.create({ car_brand_name });
         return res.json(brand);
     }
     async getAll(req, res) {
