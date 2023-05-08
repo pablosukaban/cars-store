@@ -24,7 +24,7 @@ const Header = () => {
         <header className=''>
             <div className=''>
                 <div className=''>
-                    <div className='flex w-full items-center justify-between px-4 py-2 sm:py-4 md:py-6'>
+                    <div className='mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-2 sm:py-4 md:py-6'>
                         <div className='flex w-full flex-col items-start justify-between sm:flex-row sm:items-center'>
                             <h1 className='mb-2 text-xl font-bold italic'>
                                 Автоэкспесс
@@ -46,14 +46,16 @@ const Header = () => {
                         </button>
                     </div>
                     {/* на компах */}
-                    <nav>
-                        <ul className='hidden w-full justify-around gap-4 bg-primaryOrange px-2 py-2 uppercase text-secondaryGray sm:flex'>
-                            {linksList.map((item, index) => (
-                                <li key={index} className=''>
-                                    {item}
-                                </li>
-                            ))}
-                        </ul>
+                    <nav className='bg-primaryOrange'>
+                        <div className='mx-auto max-w-7xl'>
+                            <ul className='hidden w-full justify-between gap-4 px-2 py-2 uppercase text-secondaryGray sm:flex lg:py-4'>
+                                {linksList.map((item, index) => (
+                                    <li key={index} className=''>
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </nav>
                 </div>
                 {/* на мобилах */}
