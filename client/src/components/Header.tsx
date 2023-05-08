@@ -1,4 +1,5 @@
 import { AiOutlineMenu } from 'react-icons/ai';
+import { IoIosClose } from 'react-icons/io';
 import { useState } from 'react';
 
 const linksList = [
@@ -48,7 +49,7 @@ const Header = () => {
                     {/* на компах */}
                     <nav className='bg-primaryOrange'>
                         <div className='mx-auto max-w-7xl'>
-                            <ul className='hidden w-full justify-between gap-4 px-2 py-2 uppercase text-secondaryGray sm:flex lg:py-4'>
+                            <ul className='hidden w-full justify-between gap-4 px-3 py-2 uppercase text-secondaryGray sm:flex lg:py-4'>
                                 {linksList.map((item, index) => (
                                     <li key={index} className=''>
                                         {item}
@@ -69,7 +70,7 @@ const Header = () => {
                             onClick={closeNav}
                             className='absolute right-5 top-5 text-white'
                         >
-                            X
+                            <IoIosClose className='h-12 w-12' />
                         </button>
                         <ul className='space-y-6'>
                             {linksList.map((item, index) => (
