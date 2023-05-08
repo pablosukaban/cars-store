@@ -66,7 +66,7 @@ Car.belongsTo(CarBrand);
 Car.hasMany(BasketCar);
 BasketCar.belongsTo(Car);
 
-Car.hasMany(CarInfo);
+Car.hasMany(CarInfo, { as: 'info' });
 CarInfo.belongsTo(Car);
 
 CarBrand.belongsToMany(CarModel, { through: ModelBrand });
