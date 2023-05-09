@@ -14,7 +14,7 @@ const exapleArr = new Array<exapleCar>(9).fill({
     img: exampleCarImg,
     title: 'Athos R8',
     description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, atque.',
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, atque. 123123',
 });
 
 type CarsListProps = {
