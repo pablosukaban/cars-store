@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 
 const Hero = () => {
     const { scrollYProgress } = useScroll();
-    const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+    const y = useTransform(scrollYProgress, [0, 1], ['0%', '70%']);
 
     return (
         <section className='relative min-h-[90vh] w-full'>

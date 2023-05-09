@@ -28,8 +28,6 @@ const CarsList = ({ givenArr }: CarsListProps) => {
     const isSecondBreakpoint = width > 766 && width < 1024;
     const isThirdBrakPoint = width > 1024;
 
-    console.log('render');
-
     const getRigthArr = () => {
         if (isFirstBrakpoint) {
             return [...givenArr].slice(0, 3);
