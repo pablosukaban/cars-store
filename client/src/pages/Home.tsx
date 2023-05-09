@@ -1,10 +1,11 @@
 import Hero from '../components/Hero';
+import MainLinks from '../components/MainLinks';
 
 const Home = () => {
     return (
-        <main className='relative h-[200vh]'>
+        <main className='relative min-h-[200vh]'>
             <Hero />
-            <div className='h-[1000px] bg-red-300'></div>
+            <MainLinks />
         </main>
     );
 };

@@ -15,10 +15,13 @@ const Header = () => {
 
     const openNav = () => {
         seIsNavOpened(true);
+
+        document.body.style.overflow = 'hidden';
     };
 
     const closeNav = () => {
         seIsNavOpened(false);
+        document.body.style.overflow = 'auto';
     };
 
     return (
