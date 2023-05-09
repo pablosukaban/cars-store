@@ -1,4 +1,5 @@
 import BestDeals from '../components/BestDeals';
+import CallToAction from '../components/CallToAction';
 import ChooseUs from '../components/ChooseUs';
 import Hero from '../components/Hero';
 import MainLinks from '../components/MainLinks';
@@ -10,6 +11,7 @@ const Home = () => {
             <MainLinks />
             <BestDeals />
             <ChooseUs />
+            <CallToAction />
         </main>
     );
 };
