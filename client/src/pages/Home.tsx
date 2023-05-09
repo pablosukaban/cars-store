@@ -1,3 +1,4 @@
+import BestDeals from '../components/BestDeals';
 import Hero from '../components/Hero';
 import MainLinks from '../components/MainLinks';
 
@@ -6,6 +7,7 @@ const Home = () => {
         <main className='relative min-h-[200vh]'>
             <Hero />
             <MainLinks />
+            <BestDeals />
         </main>
     );
 };
