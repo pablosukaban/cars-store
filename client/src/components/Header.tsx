@@ -1,13 +1,38 @@
 import { AiOutlineMenu } from 'react-icons/ai';
 import { IoIosClose } from 'react-icons/io';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
-const linksList = [
-    'Главная',
-    'Новые поступления',
-    'С пробегом',
-    'Кредитование',
-    'Контакты',
+// const linksList = [
+//     'Главная',
+//     'Новые поступления',
+//     'С пробегом',
+//     'Кредитование',
+//     'Контакты',
+// ];
+
+type linksType = {
+    name: string;
+    to: string;
+};
+
+const linksList: linksType[] = [
+    {
+        name: 'Главная',
+        to: '/',
+    },
+    {
+        name: 'Новые поступления',
+        to: '/new',
+    },
+    {
+        name: 'Все машины',
+        to: '/all',
+    },
+    {
+        name: 'Кредитование',
+        to: '/credit',
+    },
 ];
 
 const Header = () => {
@@ -54,9 +79,17 @@ const Header = () => {
                         <div className='mx-auto max-w-7xl'>
                             <ul className='hidden w-full justify-between gap-4 px-3 py-2 uppercase text-secondaryGray sm:flex lg:py-4'>
                                 {linksList.map((item, index) => (
-                                    <li key={index} className=''>
-                                        {item}
-                                    </li>
+                                    <NavLink
+                                        key={index}
+                                        to={item.to}
+                                        className={({ isActive }) =>
+                                            isActive
+                                                ? 'font-bold underline decoration-secondaryGray'
+                                                : ''
+                                        }
+                                    >
+                                        <li className=''>{item.name}</li>
+                                    </NavLink>
                                 ))}
                             </ul>
                         </div>
@@ -77,12 +110,11 @@ const Header = () => {
                         </button>
                         <ul className='space-y-6'>
                             {linksList.map((item, index) => (
-                                <li
-                                    key={index}
-                                    className='cursor-pointer border-b border-white pb-2 text-lg uppercase'
-                                >
-                                    {item}
-                                </li>
+                                <NavLink key={index} to={item.to}>
+                                    <li className='cursor-pointer border-b border-white pb-2 text-lg uppercase'>
+                                        {item.name}
+                                    </li>
+                                </NavLink>
                             ))}
                         </ul>
                     </div>

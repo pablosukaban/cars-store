@@ -3,8 +3,10 @@ import Header from './components/Header';
 import { Routes, Route } from 'react-router-dom';
 import Loader from './components/Loader';
 import Footer from './components/Footer';
+import AllCars from './pages/AllCars';
 
 const Home = lazy(() => import('./pages/Home'));
+const NewCars = lazy(() => import('./pages/NewCars'));
 
 const App = () => {
     return (
@@ -16,6 +18,22 @@ const App = () => {
                     element={
                         <Suspense fallback={<Loader />}>
                             <Home />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path='/new'
+                    element={
+                        <Suspense fallback={<Loader />}>
+                            <NewCars />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path='/all'
+                    element={
+                        <Suspense fallback={<Loader />}>
+                            <AllCars />
                         </Suspense>
                     }
                 />

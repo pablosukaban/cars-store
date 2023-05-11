@@ -21,7 +21,7 @@ type CarsListProps = {
     givenArr: exapleCar[];
 };
 
-const CarsList = ({ givenArr }: CarsListProps) => {
+export const CarsList = ({ givenArr }: CarsListProps) => {
     const [width, setWidth] = useState(window.innerWidth);
 
     const isFirstBrakpoint = width < 766;
@@ -52,7 +52,7 @@ const CarsList = ({ givenArr }: CarsListProps) => {
     }, []);
 
     return (
-        <ul className='grid grid-cols-1 gap-y-16 md:grid-cols-2 lg:grid-cols-3'>
+        <ul className='grid grid-cols-1 gap-y-16 bg-white md:grid-cols-2 lg:grid-cols-3'>
             {copy.map((item, index) => (
                 <li
                     key={index}
