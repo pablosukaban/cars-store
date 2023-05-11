@@ -1,24 +1,10 @@
 import { useEffect, useState } from 'react';
 import UnderlineBlock from '../UI/UnderlineBlock';
-
-const exampleCarImg =
-    'https://static.wixstatic.com/media/84770f_f0dd9ac84eeb4ae9ba19104d28948dba.jpg/v1/fill/w_327,h_217,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/84770f_f0dd9ac84eeb4ae9ba19104d28948dba.jpg';
-
-type exapleCar = {
-    img: string;
-    title: string;
-    description: string;
-};
-
-const exapleArr = new Array<exapleCar>(9).fill({
-    img: exampleCarImg,
-    title: 'Athos R8',
-    description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, atque. 123123',
-});
+import { useAppSelector } from '../hooks/redux';
+import { CarType } from '../store/carsSlice';
 
 type CarsListProps = {
-    givenArr: exapleCar[];
+    givenArr: CarType[];
 };
 
 export const CarsList = ({ givenArr }: CarsListProps) => {
@@ -60,10 +46,13 @@ export const CarsList = ({ givenArr }: CarsListProps) => {
                             '
                 >
                     <div className='px-6'>
-                        <img src={item.img} />
+                        <img src={item.car_image} />
                     </div>
-                    <h3 className='mt-4 text-xl font-bold'>{item.title}</h3>
-                    <p className='max-w-[405px] text-lg'>{item.description}</p>
+                    <h3 className='mt-4 text-xl font-bold'>Title</h3>
+                    <p className='max-w-[405px] text-lg'>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Quam, repudiandae!
+                    </p>
                 </li>
             ))}
         </ul>
@@ -71,6 +60,7 @@ export const CarsList = ({ givenArr }: CarsListProps) => {
 };
 
 const BestDeals = () => {
+    const { cars } = useAppSelector((state) => state.car);
     return (
         <section className='mx-auto max-w-7xl space-y-8 px-4 py-12'>
             <div className='flex flex-col items-center justify-center gap-16'>
@@ -86,7 +76,7 @@ const BestDeals = () => {
                     </div>
                 </div>
                 <div>
-                    <CarsList givenArr={exapleArr} />
+                    <CarsList givenArr={cars} />
                 </div>
                 <button className='rounded bg-primaryOrange px-12 py-4 font-semibold uppercase transition hover:bg-secondaryGray hover:text-white'>
                     Подробнее
