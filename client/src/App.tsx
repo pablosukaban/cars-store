@@ -2,6 +2,7 @@ import { Suspense, lazy } from 'react';
 import Header from './components/Header';
 import { Routes, Route } from 'react-router-dom';
 import Loader from './components/Loader';
+import Footer from './components/Footer';
 
 const Home = lazy(() => import('./pages/Home'));
 
@@ -19,6 +20,7 @@ const App = () => {
                     }
                 />
             </Routes>
+            <Footer />
         </div>
     );
 };
