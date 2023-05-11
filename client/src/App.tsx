@@ -8,7 +8,7 @@ const Home = lazy(() => import('./pages/Home'));
 
 const App = () => {
     return (
-        <div>
+        <div className='relative'>
             <Header />
             <Routes>
                 <Route

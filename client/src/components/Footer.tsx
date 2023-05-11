@@ -3,7 +3,7 @@ import { BiMap } from 'react-icons/bi';
 
 const Footer = () => {
     return (
-        <footer className='bg-secondaryGray pt-8 text-white'>
+        <footer className='w-full bg-secondaryGray pt-8 text-white'>
             <div className='mx-auto max-w-7xl px-6'>
                 <div className='mb-4 flex flex-col items-center justify-center gap-4 text-center sm:gap-6 md:gap-8'>
                     <h2 className='text-4xl font-bold uppercase text-primaryOrange sm:text-6xl md:text-8xl'>
