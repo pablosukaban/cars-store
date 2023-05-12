@@ -8,7 +8,9 @@ import {
     CAR_ROUTE,
     CREDIT_ROUTE,
     HOME_ROUTE,
+    LOGIN_ROUTE,
     NEW_ROUTE,
+    REGISTRATION_ROUTE,
 } from './utils/constants';
 import { useAppSelector } from './hooks/redux';
 
@@ -17,13 +19,20 @@ const NewCars = lazy(() => import('./pages/NewCars'));
 const AllCars = lazy(() => import('./pages/AllCars'));
 const Car = lazy(() => import('./pages/Car'));
 const Credit = lazy(() => import('./pages/Credit'));
+const Auth = lazy(() => import('./pages/Auth'));
 
-const Container = ({ children }: { children: React.ReactNode }) => {
+const Container = ({
+    isNeedFooter = true,
+    children,
+}: {
+    children: React.ReactNode;
+    isNeedFooter?: boolean;
+}) => {
     return (
         <Suspense fallback={<Loader />}>
             <Header />
             {children}
-            <Footer />
+            {isNeedFooter && <Footer />}
         </Suspense>
     );
 };
@@ -31,7 +40,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
 const App = () => {
     const { isAuth } = useAppSelector((state) => state.user);
     return (
-        <div className='relative'>
+        <div className='relative min-h-screen'>
             <Routes>
                 <Route
                     path={HOME_ROUTE}
@@ -73,11 +82,25 @@ const App = () => {
                         </Container>
                     }
                 />
+                <Route
+                    path={LOGIN_ROUTE}
+                    element={
+                        <Container isNeedFooter={false}>
+                            <Auth />
+                        </Container>
+                    }
+                />
+                <Route
+                    path={REGISTRATION_ROUTE}
+                    element={
+                        <Container isNeedFooter={false}>
+                            <Auth />
+                        </Container>
+                    }
+                />
                 {isAuth && (
                     <>
-                        {/* <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/admin-panel' element={<AdminPanel />} />
+                        {/*  <Route path='/admin-panel' element={<AdminPanel />} />
             <Route path='/profile' element={<Profile />}>
               <Route path='orders' element={<Orders />} />
             </Route> */}

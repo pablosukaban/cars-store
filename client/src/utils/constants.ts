@@ -54,7 +54,7 @@ export const notAuthLinks: linksType[] = [
         to: '/credit',
     },
     {
-        name: 'Вход',
+        name: 'Авторизация',
         to: '/login',
     },
 ];
