@@ -1,5 +1,5 @@
 import UnderlineBlock from '../UI/UnderlineBlock';
-import { chooseUsArr } from './data';
+import { chooseUsArr } from '../utils/data';
 
 const ChooseUs = () => {
     return (

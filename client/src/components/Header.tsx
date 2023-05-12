@@ -2,6 +2,8 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { IoIosClose } from 'react-icons/io';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { isAuthLinks, notAuthLinks } from '../utils/constants';
+import { useAppSelector } from '../hooks/redux';
 
 // const linksList = [
 //     'Главная',
@@ -11,36 +13,14 @@ import { NavLink } from 'react-router-dom';
 //     'Контакты',
 // ];
 
-type linksType = {
-    name: string;
-    to: string;
-};
-
-const linksList: linksType[] = [
-    {
-        name: 'Главная',
-        to: '/',
-    },
-    {
-        name: 'Новые поступления',
-        to: '/new',
-    },
-    {
-        name: 'Все машины',
-        to: '/all',
-    },
-    {
-        name: 'Кредитование',
-        to: '/credit',
-    },
-];
-
 const Header = () => {
+    const { isAuth } = useAppSelector((state) => state.user);
     const [isNavOpened, seIsNavOpened] = useState(false);
+
+    const navLinks = isAuth ? isAuthLinks : notAuthLinks;
 
     const openNav = () => {
         seIsNavOpened(true);
-
         document.body.style.overflow = 'hidden';
     };
 
@@ -78,7 +58,7 @@ const Header = () => {
                     <nav className='bg-primaryOrange'>
                         <div className='mx-auto max-w-7xl'>
                             <ul className='hidden w-full justify-between gap-4 px-3 py-2 uppercase text-secondaryGray sm:flex lg:py-4'>
-                                {linksList.map((item, index) => (
+                                {navLinks.map((item, index) => (
                                     <NavLink
                                         key={index}
                                         to={item.to}
@@ -109,9 +89,9 @@ const Header = () => {
                             <IoIosClose className='h-12 w-12' />
                         </button>
                         <ul className='space-y-6'>
-                            {linksList.map((item, index) => (
+                            {navLinks.map((item, index) => (
                                 <NavLink key={index} to={item.to}>
-                                    <li className='cursor-pointer border-b border-white pb-2 text-lg uppercase'>
+                                    <li className='cursor-pointer border-b border-white pb-2 pt-4 text-lg uppercase'>
                                         {item.name}
                                     </li>
                                 </NavLink>
