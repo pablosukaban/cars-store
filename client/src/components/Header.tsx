@@ -30,7 +30,7 @@ const Header = () => {
     };
 
     return (
-        <header className='sticky top-0 z-10 bg-white'>
+        <header className='sticky top-0 z-50 bg-white'>
             <div className=''>
                 <div className=''>
                     <div className='mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-2 sm:py-4 md:py-6'>
