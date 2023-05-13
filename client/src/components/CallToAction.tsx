@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { CREDIT_ROUTE } from '../utils/constants';
+
 const CallToAction = () => {
     return (
         <section className='bg-primaryOrange py-12'>
@@ -10,9 +13,11 @@ const CallToAction = () => {
                         Будем рады помочь: <br className='block sm:hidden' />{' '}
                         процентная ставка — до 0,9% годовых
                     </p>
-                    <button className='rounded bg-secondaryGray px-12 py-4 font-semibold uppercase text-white transition hover:bg-white hover:text-secondaryGray'>
-                        Подробнее
-                    </button>
+                    <Link to={CREDIT_ROUTE}>
+                        <button className='rounded bg-secondaryGray px-12 py-4 font-semibold uppercase text-white transition hover:bg-white hover:text-secondaryGray'>
+                            Подробнее
+                        </button>
+                    </Link>
                 </div>
             </div>
         </section>

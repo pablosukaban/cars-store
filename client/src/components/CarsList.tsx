@@ -42,7 +42,7 @@ const CarsList = ({ givenArr }: CarsListProps) => {
     };
 
     return (
-        <ul className='grid grid-cols-1 gap-y-16 bg-white md:grid-cols-2 lg:grid-cols-3'>
+        <ul className='grid grid-cols-1 gap-y-16 bg-secondaryLightGray md:grid-cols-2 lg:grid-cols-3'>
             {copy.map((item, index) => (
                 <li
                     key={index}

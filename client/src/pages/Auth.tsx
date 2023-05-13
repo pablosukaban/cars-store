@@ -8,8 +8,8 @@ const Auth = () => {
     const isLoginPage = location.pathname === LOGIN_ROUTE;
 
     return (
-        <div className='mt-10 grid h-[70vh] place-items-center px-4'>
-            <div className='rounded border border-secondaryLightGray px-8 py-6 shadow sm:px-16 sm:py-12'>
+        <div className='mt-10 grid h-[86vh] place-items-center overflow-hidden bg-secondaryLightGray px-4 md:mt-0'>
+            <div className='rounded border border-secondaryLightGray bg-white px-8 py-6 shadow-lg sm:px-16 sm:py-12'>
                 <h1 className='mb-4 text-center text-2xl font-bold'>
                     {isLoginPage ? 'Авторизация' : 'Регистрация'}
                 </h1>

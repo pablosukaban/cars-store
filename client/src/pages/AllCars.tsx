@@ -33,7 +33,7 @@ const AllCars = () => {
     return (
         <main>
             <SubHero imageLink={imageLink} mainText='Все автомобили' />
-            <div className='bg-white py-16'>
+            <div className='bg-secondaryLightGray py-16'>
                 <div className='mx-auto w-full max-w-7xl '>
                     <Filter />
                     <CarsList givenArr={cars} />

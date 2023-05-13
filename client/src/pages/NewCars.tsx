@@ -10,7 +10,7 @@ const NewCars = () => {
     return (
         <main className='relative'>
             <SubHero imageLink={imageLink} mainText='Новые поступления' />
-            <div className='bg-white py-16'>
+            <div className='bg-secondaryLightGray py-16'>
                 <div className='mx-auto w-full max-w-7xl '>
                     <CarsList givenArr={cars} />
                 </div>
