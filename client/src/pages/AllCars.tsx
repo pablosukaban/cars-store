@@ -1,4 +1,4 @@
-import { CarsList } from '../components/BestDeals';
+import CarsList from '../components/CarsList';
 import SubHero from '../components/SubHero';
 import { useAppSelector } from '../hooks/redux';
 
