@@ -1,5 +1,3 @@
-import { useParams } from 'react-router-dom';
-import { CarType } from '../store/carsSlice';
 import { useAppSelector } from '../hooks/redux';
 import CarsList from '../components/CarsList';
 import SubHero from '../components/SubHero';
@@ -8,7 +6,6 @@ const imageLink =
     'https://static.wixstatic.com/media/548a7f_34163ad1a8274771bb6513a513ff22e8.jpg/v1/fill/w_980,h_862,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/548a7f_34163ad1a8274771bb6513a513ff22e8.jpg';
 
 const Car = () => {
-    const { id } = useParams();
     const { cars } = useAppSelector((state) => state.car);
     const exampleCar = {
         id: 1,
@@ -24,7 +21,7 @@ const Car = () => {
     return (
         <main className=''>
             <SubHero imageLink={imageLink} mainText={exampleCar.car_name} />
-            <div className='bg-white'>
+            <div className='bg-secondaryLightGray'>
                 <div className='mx-auto max-w-7xl space-y-8  px-6 py-16 sm:px-6 lg:px-8'>
                     <div className='flex flex-col gap-x-6 gap-y-4 md:flex-row md:items-start  md:justify-between'>
                         <div className='md:flex-1'>
