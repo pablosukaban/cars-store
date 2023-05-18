@@ -4,7 +4,7 @@ import CreateModelModal from '../UI/CreateModelModal';
 import CreateCarModal from '../UI/CreateCarModal';
 
 const ModalContainer = ({ isOpened, setIsOpened, children }) => {
-    const modalContainerRef = useRef < HTMLDivElement > null;
+    const modalContainerRef = useRef(null);
 
     const handleSubmit = () => {
         setIsOpened(false);

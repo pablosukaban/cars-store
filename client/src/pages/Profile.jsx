@@ -9,7 +9,7 @@ const Profile = () => {
     const { setIsAuth, setUser } = userSlice.actions;
     const navigate = useNavigate();
 
-    if (user.isAdmin) {
+    if (user.role === 'ADMIN') {
         return <Admin />;
     }
 
