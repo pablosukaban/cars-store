@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { CarType } from '../store/carsSlice';
 
 const usePagination = (data, paginationProps) => {
     const { itemsPerPage, totalItems } = paginationProps;
