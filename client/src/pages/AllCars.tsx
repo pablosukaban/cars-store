@@ -89,7 +89,10 @@ const AllCars = () => {
                     <CarsList givenArr={cars} />
                     <div className='mt-8 flex items-center justify-end gap-2'>
                         {[1, 2, 3, 4, 5].map((el) => (
-                            <button className='border bg-secondaryGray px-2 py-1 text-lg font-bold text-white transition hover:text-primaryOrange'>
+                            <button
+                                key={el}
+                                className='border bg-secondaryGray px-2 py-1 text-lg font-bold text-white transition hover:text-primaryOrange'
+                            >
                                 {el}
                             </button>
                         ))}
