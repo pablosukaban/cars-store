@@ -1,11 +1,43 @@
 import { useLocation } from 'react-router-dom';
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../utils/constants';
 import { NavLink } from 'react-router-dom';
+import { login, registration } from '../http/userAPI';
+import { useState } from 'react';
+import { useAppDispatch } from '../hooks/redux';
+import { UserType, userSlice } from '../store/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
+    const [name, setName] = useState('i');
+    const [email, setEmail] = useState('testsdfs@mail.ru');
+    const [password, setPassword] = useState('123');
+
     const location = useLocation();
+    const navigate = useNavigate();
 
     const isLoginPage = location.pathname === LOGIN_ROUTE;
+
+    const dispatch = useAppDispatch();
+    const { setUser, setIsAuth } = userSlice.actions;
+
+    const handleButtonClick = async () => {
+        try {
+            let newUser: UserType;
+
+            if (isLoginPage) {
+                newUser = await login(email, password);
+            } else {
+                newUser = await registration(email, password);
+            }
+
+            dispatch(setUser(newUser));
+            dispatch(setIsAuth(true));
+
+            navigate('/');
+        } catch (error) {
+            alert(error.response.data.message);
+        }
+    };
 
     return (
         <div className='mt-10 grid h-[86vh] place-items-center overflow-hidden bg-secondaryLightGray px-4 md:mt-0'>
@@ -19,17 +51,23 @@ const Auth = () => {
                             className='block w-full border px-4 py-4 text-lg transition focus:border-secondaryGray'
                             type='text'
                             placeholder='Введите ваше имя...'
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                         />
                     )}
                     <input
                         className='block w-full border px-4 py-4 text-lg transition focus:border-secondaryGray'
                         type='email'
                         placeholder='Введите ваш email...'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <input
                         className='block w-full border px-4 py-4 text-lg transition focus:border-secondaryGray'
                         type='password'
                         placeholder='Введите ваш пароль...'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
                 <div className=' flex flex-wrap items-start justify-between gap-8'>
@@ -58,7 +96,10 @@ const Auth = () => {
                             </NavLink>
                         </div>
                     )}
-                    <button className='rounded border bg-secondaryGray px-6 py-2 text-lg font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray'>
+                    <button
+                        className='rounded border bg-secondaryGray px-6 py-2 text-lg font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray'
+                        onClick={handleButtonClick}
+                    >
                         {isLoginPage ? 'Вход' : 'Регистрация'}
                     </button>
                 </div>

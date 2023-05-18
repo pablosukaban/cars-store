@@ -10,9 +10,11 @@ import {
     HOME_ROUTE,
     LOGIN_ROUTE,
     NEW_ROUTE,
+    PROFILE_ROUTE,
     REGISTRATION_ROUTE,
 } from './utils/constants';
 import { useAppSelector } from './hooks/redux';
+import Profile from './pages/Profile';
 
 const Home = lazy(() => import('./pages/Home'));
 const NewCars = lazy(() => import('./pages/NewCars'));
@@ -100,14 +102,27 @@ const App = () => {
                 />
                 {isAuth && (
                     <>
-                        {/*  <Route path='/admin-panel' element={<AdminPanel />} />
-            <Route path='/profile' element={<Profile />}>
+                        <Route
+                            path={PROFILE_ROUTE}
+                            element={
+                                <Container isNeedFooter={false}>
+                                    <Profile />
+                                </Container>
+                            }
+                        />
+                        {/*<Route path='/profile' element={<Profile />}>
               <Route path='orders' element={<Orders />} />
             </Route> */}
                     </>
                 )}
-                <Route path='*' element={<div>Страница не найдена</div>} />
-                {/* маршрут для страницы 404 */}
+                <Route
+                    path='*'
+                    element={
+                        <div className='grid h-screen place-items-center font-bold'>
+                            Страница не найдена
+                        </div>
+                    }
+                />
             </Routes>
         </div>
     );

@@ -1,8 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export type UserType = {
+    name?: string;
+    phone?: string;
     email: string;
     password: string;
+    isAdmin?: boolean;
 };
 
 type StateType = {
@@ -13,8 +16,9 @@ type StateType = {
 const initialState: StateType = {
     isAuth: false,
     user: {
-        email: 'mail@gmail.ru',
-        password: '123123123',
+        email: '',
+        password: '',
+        isAdmin: true,
     },
 };
 

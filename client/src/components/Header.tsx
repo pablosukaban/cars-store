@@ -63,9 +63,7 @@ const Header = () => {
                                         key={index}
                                         to={item.to}
                                         className={({ isActive }) =>
-                                            isActive
-                                                ? 'font-bold underline decoration-secondaryGray'
-                                                : ''
+                                            isActive ? 'font-bold ' : ''
                                         }
                                     >
                                         <li className=''>{item.name}</li>
