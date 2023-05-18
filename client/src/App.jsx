@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import Header from './components/Header';
 import { Routes, Route } from 'react-router-dom';
 import Loader from './components/Loader';
@@ -13,7 +13,9 @@ import {
     PROFILE_ROUTE,
     REGISTRATION_ROUTE,
 } from './utils/constants';
-import { useAppSelector } from './hooks/redux';
+import { useAppDispatch, useAppSelector } from './hooks/redux';
+import { check } from './http/userAPI';
+import { userSlice } from './store/userSlice';
 
 const Home = lazy(() => import('./pages/Home'));
 const NewCars = lazy(() => import('./pages/NewCars'));
@@ -35,6 +37,17 @@ const Container = ({ isNeedFooter = true, children }) => {
 
 const App = () => {
     const { isAuth } = useAppSelector((state) => state.user);
+    const dispatch = useAppDispatch();
+    const { setIsAuth, setUser } = userSlice.actions;
+
+    useEffect(() => {
+        check().then((data) => {
+            dispatch(setIsAuth(true));
+            dispatch(setUser(data));
+            // console.log('🚀 ~ file: App.jsx:42 ~ check ~ data:', data);
+        });
+    }, []);
+
     return (
         <div className='relative min-h-screen'>
             <Routes>
