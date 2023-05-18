@@ -5,14 +5,6 @@ import { NavLink } from 'react-router-dom';
 import { isAuthLinks, notAuthLinks } from '../utils/constants';
 import { useAppSelector } from '../hooks/redux';
 
-// const linksList = [
-//     'Главная',
-//     'Новые поступления',
-//     'С пробегом',
-//     'Кредитование',
-//     'Контакты',
-// ];
-
 const Header = () => {
     const { isAuth } = useAppSelector((state) => state.user);
     const [isNavOpened, seIsNavOpened] = useState(false);
@@ -30,7 +22,7 @@ const Header = () => {
     };
 
     return (
-        <header className='sticky top-0 z-50 bg-white'>
+        <header className='sticky top-0 z-50 bg-white text-center'>
             <div className=''>
                 <div className=''>
                     <div className='mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-2 sm:py-4 md:py-6'>
@@ -38,7 +30,7 @@ const Header = () => {
                             <h1 className='mb-2 text-xl font-bold italic'>
                                 Автоэкспесс
                             </h1>
-                            <div>
+                            <div className='text-left'>
                                 <span className='font-bold uppercase'>
                                     Звоните сейчас
                                 </span>
