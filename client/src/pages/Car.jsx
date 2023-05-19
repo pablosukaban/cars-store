@@ -1,11 +1,12 @@
-import { useAppSelector } from '../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import CarsList from '../components/CarsList';
 import SubHero from '../components/SubHero';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Loader from '../components/Loader';
-import { getCarName } from '../utils/utils.js';
-import { fetchOneCar } from '../http/carAPI';
+import { getCarName, shuffleArray } from '../utils/utils.js';
+import { fetchAllCars, fetchOneCar } from '../http/carAPI';
+import { carSlice } from '../store/carsSlice';
 
 const imageLink =
     'https://static.wixstatic.com/media/548a7f_34163ad1a8274771bb6513a513ff22e8.jpg/v1/fill/w_980,h_862,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/548a7f_34163ad1a8274771bb6513a513ff22e8.jpg';
@@ -14,24 +15,20 @@ const Car = () => {
     const { cars, brands, models } = useAppSelector((state) => state.car);
     const { id } = useParams();
 
-    const [car, setCar] = useState(null);
+    const [car, setCar] = useState({ info: [] });
+
+    const { setCars } = carSlice.actions;
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        fetchAllCars().then((data) => dispatch(setCars(data.rows)));
+    }, [dispatch, setCars]);
 
     useEffect(() => {
         fetchOneCar(id).then((data) => {
             setCar(data);
         });
     }, [cars, id]);
-
-    // const exampleCar = {
-    //     id: 1,
-    //     body_type: 'Sedan',
-    //     car_color: 'Red',
-    //     car_name: 'Toyota RAV4',
-    //     car_image:
-    //         'https://static.wixstatic.com/media/84770f_f0dd9ac84eeb4ae9ba19104d28948dba.jpg/v1/fill/w_327,h_217,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/84770f_f0dd9ac84eeb4ae9ba19104d28948dba.jpg',
-    //     car_price: '100000',
-    //     year_of_manufacture: 2021,
-    // };
 
     if (!car) return <Loader />;
 
@@ -72,8 +69,8 @@ const Car = () => {
                                         key={index}
                                         className='flex justify-between border-b pb-1 pt-2 lg:text-xl'
                                     >
-                                        <span>{item[0]}</span>
-                                        <span>{item[1]}</span>
+                                        <span>{item.title}</span>
+                                        <span>{item.description}</span>
                                     </div>
                                 ))}
                         </div>
@@ -113,7 +110,7 @@ const Car = () => {
                         <h1 className='mb-2 text-lg font-bold lg:text-2xl'>
                             Другие объявления
                         </h1>
-                        <CarsList givenArr={[...cars].slice(0, 3)} />
+                        <CarsList givenArr={shuffleArray(cars).slice(0, 3)} />
                     </div>
                 </div>
             </div>

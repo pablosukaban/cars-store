@@ -1,17 +1,67 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useAppSelector } from '../hooks/redux';
+import { createCar } from '../http/carAPI';
 
 const CreateCarModal = ({ isOpened, setIsOpened }) => {
-    const modalContainerRef = useRef(null);
     const { brands, models } = useAppSelector((state) => state.car);
+
+    const [info, setInfo] = useState([]);
+    const [price, setPrice] = useState(30000);
+    const [brand, setBrand] = useState(brands[0].car_brand_name || '');
+    const [model, setModel] = useState(models[0].car_model_name || '');
+    const [year, setYear] = useState(2000);
+    const [file, setFile] = useState('');
+
+    // нужно хранить объект с брендом и айди, в таблице то хранится айдишники моделей и бренда
+
+    const modalContainerRef = useRef(null);
+    const formRef = useRef(null);
+
+    const addInfo = () => {
+        setInfo([...info, { id: Date.now(), title: '', description: '' }]);
+    };
+
+    const deleteInfo = (id) => {
+        setInfo(info.filter((item) => item.id !== id));
+    };
+
+    const changeInfo = (key, description, id) => {
+        setInfo(
+            info.map((i) => (i.id === id ? { ...i, [key]: description } : i))
+        );
+    };
+
+    const changeFile = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(formRef.current);
+
+        const brandId = brands.find((b) => b.car_brand_name === brand).id;
+        const modelId = models.find((m) => m.car_model_name === model).id;
+
+        formData.append('car_model_id', modelId);
+        formData.append('car_brand_id', brandId);
+        formData.append('year_of_manufacture', `${year}`);
+        formData.append('body_type', 'Sedan');
+        formData.append('car_color', 'red');
+        formData.append('car_price', `${price}`);
+        formData.append('car_image', file);
+        formData.append('info', JSON.stringify(info));
+
+        createCar(formData).then(() => {
+            setIsOpened(false);
+        });
+    };
 
     const handleContainerClick = (e) => {
         if (e.target === modalContainerRef.current) {
             setIsOpened(false);
         }
     };
-
-    const handleSubmit = () => {};
 
     return (
         <div
@@ -21,32 +71,119 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
             onClick={handleContainerClick}
             ref={modalContainerRef}
         >
-            <div className='flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6'>
-                <select>
+            <form
+                ref={formRef}
+                className='flex w-full max-w-[600px] flex-col items-center justify-center gap-4 rounded-lg bg-white p-6'
+            >
+                <h1 className='w-full border-b border-slate-300 p-1 text-2xl font-bold'>
+                    Добавить автомобиль
+                </h1>
+                <select
+                    className='w-full rounded border px-4 py-2'
+                    value={brand || brands[0].car_brand_name}
+                    onChange={(e) => setBrand(e.target.value)}
+                >
                     {brands.map((brand) => (
-                        <option key={brand.id}>{brand.car_brand_name}</option>
+                        <option key={brand.id} value={brand.car_brand_name}>
+                            {brand.car_brand_name}
+                        </option>
                     ))}
                 </select>
-                <select>
+                <select
+                    className='w-full rounded border px-4 py-2'
+                    value={model}
+                    onChange={(e) => setModel(e.target.value)}
+                >
                     {models.map((model) => (
-                        <option key={model.id}>{model.car_model_name}</option>
+                        <option key={model.id} value={model.car_model_name}>
+                            {model.car_model_name}
+                        </option>
                     ))}
                 </select>
-                <input type='file' />
-                <input
+                {/* <input
                     type='text'
-                    placeholder='Enter car name'
+                    placeholder=''
                     className='border px-6 py-4'
+                /> */}
+                <input
+                    type='number'
+                    placeholder='Цена'
+                    className='w-full border px-6 py-3'
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                 />
-                <div className='flex w-full items-center justify-between px-2'>
-                    <button onClick={handleSubmit} className=''>
+                <input
+                    type='number'
+                    placeholder='Год выпуска'
+                    className='w-full border px-6 py-3'
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                />
+                <input
+                    type='file'
+                    onChange={changeFile}
+                    className='self-start'
+                />
+                <button
+                    onClick={addInfo}
+                    type='button'
+                    className='self-start bg-secondaryGray px-4 py-2 text-white'
+                >
+                    Добавить новое свойство
+                </button>
+                {info.length > 0 &&
+                    info.map((item) => (
+                        <div
+                            key={item.number}
+                            className='flex w-full items-center justify-between gap-2'
+                        >
+                            <input
+                                type='text'
+                                placeholder='Название'
+                                className='w-full border px-4 py-3'
+                                value={item.titlle}
+                                onChange={(e) =>
+                                    changeInfo('title', e.target.value, item.id)
+                                }
+                            />
+                            <input
+                                type='text'
+                                placeholder='Значение'
+                                className='w-full border px-4 py-3'
+                                value={item.description}
+                                onChange={(e) =>
+                                    changeInfo(
+                                        'description',
+                                        e.target.value,
+                                        item.id
+                                    )
+                                }
+                            />
+                            <button
+                                type='button'
+                                className='w-full border border-red-400 px-4 py-3'
+                                onClick={() => deleteInfo(item.id)}
+                            >
+                                Удалить
+                            </button>
+                        </div>
+                    ))}
+                <div className='flex w-full items-center justify-start gap-2'>
+                    <button
+                        onClick={handleSubmit}
+                        className='bg-primaryOrange px-4 py-3'
+                    >
                         Подтвердить
                     </button>
-                    <button onClick={() => setIsOpened(false)} className=''>
+                    <button
+                        type='button'
+                        onClick={() => setIsOpened(false)}
+                        className=''
+                    >
                         Отменить
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };

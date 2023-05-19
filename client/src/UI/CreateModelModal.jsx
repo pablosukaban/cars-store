@@ -40,15 +40,21 @@ const CreateModelModal = ({ isOpened, setIsOpened }) => {
             onClick={handleContainerClick}
             ref={modalContainerRef}
         >
-            <div className='flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6'>
+            <div className='flex flex-col items-center justify-center gap-6 rounded-lg bg-white p-6'>
+                <h1 className='w-full border-b border-slate-300 p-1 text-2xl font-bold'>
+                    Добавить модель
+                </h1>
                 <input
                     placeholder='Название модели'
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     className='border px-6 py-4'
                 />
-                <div className='flex w-full items-center justify-between px-2'>
-                    <button onClick={handleSubmit} className=''>
+                <div className='flex w-full items-center justify-between gap-4 '>
+                    <button
+                        onClick={handleSubmit}
+                        className='bg-primaryOrange px-4 py-3'
+                    >
                         Подтвердить
                     </button>
                     <button onClick={() => setIsOpened(false)} className=''>
