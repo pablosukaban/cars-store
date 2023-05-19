@@ -1,36 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    brands: [
-        {
-            id: 1,
-            car_brand_name: 'Toyota',
-        },
-        {
-            id: 2,
-            car_brand_name: 'Honda',
-        },
-        {
-            id: 3,
-            car_brand_name: 'Ford',
-        },
-        {
-            id: 4,
-            car_brand_name: 'BMW',
-        },
-    ],
+    brands: [],
     models: [
         {
             id: 1,
             car_model_name: 'Camry',
-        },
-        {
-            id: 2,
-            car_model_name: 'Accord',
-        },
-        {
-            id: 3,
-            car_model_name: 'Mustang',
         },
     ],
     cars: [
@@ -128,6 +103,9 @@ export const carSlice = createSlice({
         },
         setBrands: (state, action) => {
             state.brands = action.payload;
+        },
+        addBrand: (state, brand) => {
+            state.brands.push(brand.payload);
         },
         setCars: (state, action) => {
             state.cars = action.payload;

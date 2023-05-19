@@ -1,42 +1,63 @@
 import { useAppSelector } from '../hooks/redux';
 import CarsList from '../components/CarsList';
 import SubHero from '../components/SubHero';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Loader from '../components/Loader';
+import { getCarName } from '../utils/utils.js';
+import { fetchOneCar } from '../http/carAPI';
 
 const imageLink =
     'https://static.wixstatic.com/media/548a7f_34163ad1a8274771bb6513a513ff22e8.jpg/v1/fill/w_980,h_862,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/548a7f_34163ad1a8274771bb6513a513ff22e8.jpg';
 
 const Car = () => {
-    const { cars } = useAppSelector((state) => state.car);
-    const exampleCar = {
-        id: 1,
-        body_type: 'Sedan',
-        car_color: 'Red',
-        car_name: 'Toyota RAV4',
-        car_image:
-            'https://static.wixstatic.com/media/84770f_f0dd9ac84eeb4ae9ba19104d28948dba.jpg/v1/fill/w_327,h_217,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/84770f_f0dd9ac84eeb4ae9ba19104d28948dba.jpg',
-        car_price: '100000',
-        year_of_manufacture: 2021,
-    };
+    const { cars, brands, models } = useAppSelector((state) => state.car);
+    const { id } = useParams();
+
+    const [car, setCar] = useState(null);
+
+    useEffect(() => {
+        fetchOneCar(id).then((data) => {
+            setCar(data);
+        });
+    }, [cars, id]);
+
+    // const exampleCar = {
+    //     id: 1,
+    //     body_type: 'Sedan',
+    //     car_color: 'Red',
+    //     car_name: 'Toyota RAV4',
+    //     car_image:
+    //         'https://static.wixstatic.com/media/84770f_f0dd9ac84eeb4ae9ba19104d28948dba.jpg/v1/fill/w_327,h_217,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/84770f_f0dd9ac84eeb4ae9ba19104d28948dba.jpg',
+    //     car_price: '100000',
+    //     year_of_manufacture: 2021,
+    // };
+
+    if (!car) return <Loader />;
+
+    const title = getCarName(brands, car.carBrandId, models, car.carModelId);
 
     return (
         <main className=''>
-            <SubHero imageLink={imageLink} mainText={exampleCar.car_name} />
+            <SubHero imageLink={imageLink} mainText={title} />
             <div className='bg-secondaryLightGray'>
                 <div className='mx-auto max-w-7xl space-y-8  px-6 py-16 sm:px-6 lg:px-8'>
                     <div className='flex flex-col gap-x-6 gap-y-4 md:flex-row md:items-start  md:justify-between'>
                         <div className='md:flex-1'>
                             <h1 className='mb-2 flex flex-wrap justify-between text-xl font-bold md:mb-4 lg:text-2xl'>
                                 <span>
-                                    {exampleCar.car_name},{' '}
-                                    {exampleCar.year_of_manufacture}
+                                    {title}, {car.year_of_manufacture}
                                 </span>
                                 <span className='text-gray-500'>
-                                    {exampleCar.car_price} руб.
+                                    {car.car_price} руб.
                                 </span>
                             </h1>
                             <div className=''>
                                 <img
-                                    src={exampleCar.car_image}
+                                    src={
+                                        import.meta.env.VITE_API_URL +
+                                        car.car_image
+                                    }
                                     className='w-full rounded'
                                 />
                             </div>
@@ -45,17 +66,16 @@ const Car = () => {
                             <h1 className='text-lg font-bold md:text-xl lg:text-2xl'>
                                 Характеристики
                             </h1>
-                            {new Array(6).fill(0).map((_, index) => (
-                                <div
-                                    key={index}
-                                    className='flex justify-between border-b pb-1 pt-2 lg:text-xl'
-                                >
-                                    <span>Год выпуска</span>
-                                    <span>
-                                        {exampleCar.year_of_manufacture}
-                                    </span>
-                                </div>
-                            ))}
+                            {car.info.length > 0 &&
+                                car.info.map((item, index) => (
+                                    <div
+                                        key={index}
+                                        className='flex justify-between border-b pb-1 pt-2 lg:text-xl'
+                                    >
+                                        <span>{item[0]}</span>
+                                        <span>{item[1]}</span>
+                                    </div>
+                                ))}
                         </div>
                     </div>
                     <div>

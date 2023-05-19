@@ -50,6 +50,7 @@ class CarController {
             next(ApiError.badRequest(e.message));
         }
     }
+
     async getAll(req, res) {
         let { carModelId, carBrandId, limit, page } = req.query;
 
@@ -89,6 +90,7 @@ class CarController {
 
         return res.json(cars);
     }
+
     async getOne(req, res) {
         const { id } = req.params;
 

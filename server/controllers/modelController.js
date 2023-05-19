@@ -8,9 +8,16 @@ class ModelController {
         const model = await CarModel.create({ car_model_name });
         return res.json(model);
     }
+
     async getAll(req, res) {
         const models = await CarModel.findAll();
         res.json(models);
+    }
+
+    async getOne(req, res) {
+        const { id } = req.params;
+        const model = await CarModel.findOne({ where: { id } });
+        res.json(model);
     }
 }
 

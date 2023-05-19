@@ -21,16 +21,21 @@ const Profile = () => {
                 password: '',
             })
         );
-        navigate('/');
+        navigate('/login');
     };
 
     return (
-        <div>
+        <div className='relative'>
+            <button
+                className='absolute right-5 top-5 rounded bg-secondaryGray bg-opacity-40 px-4 py-2 text-white'
+                onClick={logOut}
+            >
+                Выйти
+            </button>
             Профиль пользователя
             <br />
             <div>{user.email}</div>
             <div>{user.password}</div>
-            <button onClick={logOut}>выйти</button>
         </div>
     );
 };

@@ -16,6 +16,8 @@ import {
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { check } from './http/userAPI';
 import { userSlice } from './store/userSlice';
+import { carSlice } from './store/carsSlice';
+import { fetchAllCars, fetchBrands, fetchModels } from './http/carAPI';
 
 const Home = lazy(() => import('./pages/Home'));
 const NewCars = lazy(() => import('./pages/NewCars'));
@@ -37,16 +39,23 @@ const Container = ({ isNeedFooter = true, children }) => {
 
 const App = () => {
     const { isAuth } = useAppSelector((state) => state.user);
-    const dispatch = useAppDispatch();
+
     const { setIsAuth, setUser } = userSlice.actions;
+    const { setBrands, setCars, setModels } = carSlice.actions;
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         check().then((data) => {
             dispatch(setIsAuth(true));
             dispatch(setUser(data));
-            // console.log('🚀 ~ file: App.jsx:42 ~ check ~ data:', data);
         });
-    }, []);
+    }, [dispatch, setIsAuth, setUser]);
+
+    useEffect(() => {
+        fetchModels().then((data) => dispatch(setModels(data)));
+        fetchBrands().then((data) => dispatch(setBrands(data)));
+        fetchAllCars().then((data) => dispatch(setCars(data.rows)));
+    }, [dispatch, setBrands, setCars, setModels]);
 
     return (
         <div className='relative min-h-screen'>

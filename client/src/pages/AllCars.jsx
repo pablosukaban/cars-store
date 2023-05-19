@@ -1,12 +1,16 @@
+import { useEffect } from 'react';
 import CarsList from '../components/CarsList';
 import SubHero from '../components/SubHero';
-import { useAppSelector } from '../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { fetchAllCars, fetchBrands, fetchModels } from '../http/carAPI';
+import { carSlice } from '../store/carsSlice';
 
 const imageLink =
     'https://static.wixstatic.com/media/548a7f_34163ad1a8274771bb6513a513ff22e8.jpg/v1/fill/w_1500,h_701,al_c,q_85,enc_auto/548a7f_34163ad1a8274771bb6513a513ff22e8.jpg';
 
 const ModelFilter = () => {
     const { models } = useAppSelector((state) => state.car);
+
     return (
         <select
             className='w-full rounded border px-4 py-2'
@@ -24,6 +28,7 @@ const ModelFilter = () => {
 
 const BrandFilter = () => {
     const { brands } = useAppSelector((state) => state.car);
+
     return (
         <select
             className='w-full rounded border px-4 py-2'
@@ -65,6 +70,15 @@ const CarNameFilter = () => {
 
 const AllCars = () => {
     const { cars } = useAppSelector((state) => state.car);
+
+    const { setBrands, setCars, setModels } = carSlice.actions;
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        fetchModels().then((data) => dispatch(setModels(data)));
+        fetchBrands().then((data) => dispatch(setBrands(data)));
+        fetchAllCars().then((data) => dispatch(setCars(data.rows)));
+    }, [dispatch, setBrands, setCars, setModels]);
 
     return (
         <main>
