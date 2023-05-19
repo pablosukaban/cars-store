@@ -8,10 +8,12 @@ class BrandController {
         const brand = await CarBrand.create({ car_brand_name });
         return res.json(brand);
     }
+
     async getAll(req, res) {
         const allBrand = await CarBrand.findAll();
         return res.json(allBrand);
     }
+
     async getOne(req, res) {
         const { id } = req.params;
         const brand = await CarBrand.findOne({ where: { id } });

@@ -10,12 +10,36 @@ const User = sequelize.define('user', {
     role: { type: DataTypes.STRING, defaultValue: 'USER' },
 });
 
-const Basket = sequelize.define('basket', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
+// const Basket = sequelize.define('basket', {
+//     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+//     user_id: { type: DataTypes.INTEGER, allowNull: false },
+//     total_price: { type: DataTypes.INTEGER, allowNull: false },
+//     car_id: { type: DataTypes.INTEGER, allowNull: false },
+//     date: { type: DataTypes.DATE, allowNull: false },
+// });
 
-const BasketCar = sequelize.define('basket_car', {
+// const BasketCar = sequelize.define('basket_car', {
+//     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+// });
+
+const Orders = sequelize.define('orders', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    car_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    total_price: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
 });
 
 const Car = sequelize.define('car', {
@@ -51,11 +75,14 @@ const ModelBrand = sequelize.define('model_brand', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
-User.hasOne(Basket);
-Basket.belongsTo(User);
+// User.hasOne(Basket);
+// Basket.belongsTo(User);
 
-Basket.hasMany(BasketCar);
-BasketCar.belongsTo(Basket);
+// Basket.hasMany(BasketCar);
+// BasketCar.belongsTo(Basket);
+
+// Car.hasMany(BasketCar);
+// BasketCar.belongsTo(Car);
 
 CarModel.hasMany(Car);
 Car.belongsTo(CarModel);
@@ -63,19 +90,20 @@ Car.belongsTo(CarModel);
 CarBrand.hasMany(Car);
 Car.belongsTo(CarBrand);
 
-Car.hasMany(BasketCar);
-BasketCar.belongsTo(Car);
-
 Car.hasMany(CarInfo, { as: 'info' });
 CarInfo.belongsTo(Car);
 
 CarBrand.belongsToMany(CarModel, { through: ModelBrand });
 CarModel.belongsToMany(CarBrand, { through: ModelBrand });
 
+Orders.belongsTo(User, { foreignKey: 'user_id' });
+Orders.belongsTo(Car, { foreignKey: 'car_id' });
+
 export default {
     User,
-    Basket,
-    BasketCar,
+    // Basket,
+    // BasketCar,
+    Orders,
     Car,
     CarModel,
     CarBrand,
