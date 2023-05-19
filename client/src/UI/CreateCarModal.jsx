@@ -134,7 +134,7 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
                 {info.length > 0 &&
                     info.map((item) => (
                         <div
-                            key={item.number}
+                            key={item.id}
                             className='flex w-full items-center justify-between gap-2'
                         >
                             <input
