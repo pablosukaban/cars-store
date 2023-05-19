@@ -24,8 +24,8 @@ const User = sequelize.define('user', {
 
 const Orders = sequelize.define('orders', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    user_id: {
-        type: DataTypes.INTEGER,
+    user_email: {
+        type: DataTypes.STRING,
         allowNull: false,
     },
     car_id: {

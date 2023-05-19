@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import CarsList from '../components/CarsList';
 import SubHero from '../components/SubHero';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Loader from '../components/Loader';
 import { getCarName, shuffleArray } from '../utils/utils.js';
@@ -14,6 +14,7 @@ const imageLink =
 const Car = () => {
     const { cars, brands, models } = useAppSelector((state) => state.car);
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const [car, setCar] = useState({ info: [] });
 
@@ -33,6 +34,10 @@ const Car = () => {
     if (!car) return <Loader />;
 
     const title = getCarName(brands, car.carBrandId, models, car.carModelId);
+
+    const createOrder = (id) => {
+        navigate(`/order/${id}`);
+    };
 
     return (
         <main className=''>
@@ -96,7 +101,10 @@ const Car = () => {
                         </p>
                     </div>
                     <div className='flex flex-col items-center justify-center gap-x-8 gap-y-4  md:flex-row'>
-                        <button className='w-full rounded bg-primaryOrange px-6 py-3 font-semibold uppercase transition hover:bg-secondaryGray hover:text-white sm:w-auto sm:px-12 sm:py-4'>
+                        <button
+                            className='w-full rounded bg-primaryOrange px-6 py-3 font-semibold uppercase transition hover:bg-secondaryGray hover:text-white sm:w-auto sm:px-12 sm:py-4'
+                            onClick={() => createOrder(car.id)}
+                        >
                             Оформить заказ
                         </button>
                         <button className='w-full rounded bg-primaryOrange px-6 py-3 font-semibold uppercase transition hover:bg-secondaryGray hover:text-white sm:w-auto sm:px-12 sm:py-4'>

@@ -10,6 +10,7 @@ import {
     HOME_ROUTE,
     LOGIN_ROUTE,
     NEW_ROUTE,
+    ORDER_ROUTE,
     PROFILE_ROUTE,
     REGISTRATION_ROUTE,
 } from './utils/constants';
@@ -26,6 +27,7 @@ const Car = lazy(() => import('./pages/Car'));
 const Credit = lazy(() => import('./pages/Credit'));
 const Auth = lazy(() => import('./pages/Auth'));
 const Profile = lazy(() => import('./pages/Profile'));
+const Order = lazy(() => import('./pages/Order'));
 
 const Container = ({ isNeedFooter = true, children }) => {
     return (
@@ -116,6 +118,7 @@ const App = () => {
                         </Container>
                     }
                 />
+
                 {isAuth && (
                     <>
                         <Route
@@ -123,6 +126,14 @@ const App = () => {
                             element={
                                 <Container isNeedFooter={false}>
                                     <Profile />
+                                </Container>
+                            }
+                        />
+                        <Route
+                            path={ORDER_ROUTE + '/:id'}
+                            element={
+                                <Container isNeedFooter={false}>
+                                    <Order />
                                 </Container>
                             }
                         />
