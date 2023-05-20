@@ -25,17 +25,35 @@ const Profile = () => {
     };
 
     return (
-        <div className='relative'>
+        <div className='relative mt-10 grid h-[85vh] place-items-center overflow-hidden bg-secondaryLightGray px-4 md:mt-0'>
             <button
                 className='absolute right-5 top-5 rounded bg-secondaryGray bg-opacity-40 px-4 py-2 text-white'
                 onClick={logOut}
             >
                 Выйти
             </button>
-            Профиль пользователя
-            <br />
-            <div>{user.email}</div>
-            <div>{user.password}</div>
+            <div className='rounded border border-secondaryLightGray bg-white px-8 py-6 shadow-lg sm:px-16 sm:py-12'>
+                <h1 className='text-center'>Профиль</h1>
+                <div className='flex items-baseline gap-2 p-2 text-lg'>
+                    <span>Имя: </span>
+                    <input
+                        type='text'
+                        className='inline-block w-full border p-2'
+                        value={''}
+                    />
+                </div>
+                <div className='flex items-baseline gap-2 p-2 text-lg'>
+                    Телефон: {user.name || ''}
+                    <input
+                        type='tel'
+                        className='inline-block w-full border p-2'
+                        value={''}
+                    />
+                </div>
+                <div className='p-2 text-lg'>ID: {user.id}</div>
+                <div className='p-2 text-lg'>email: {user.email}</div>
+                <div className='p-2 text-lg'>role: {user.role}</div>
+            </div>
         </div>
     );
 };
