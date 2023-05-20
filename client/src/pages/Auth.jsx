@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
     const [name, setName] = useState('i');
-    const [email, setEmail] = useState('testsdfs@mail.ru');
+    const [email, setEmail] = useState('admin@mail.ru');
     const [password, setPassword] = useState('123');
 
     const location = useLocation();

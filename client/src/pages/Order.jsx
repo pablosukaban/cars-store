@@ -15,8 +15,12 @@ const Order = () => {
     const { brands, models } = useAppSelector((state) => state.car);
 
     const [email, setEmail] = useState('');
-    const [date, setDate] = useState('2023-05-20');
+    const [date, setDate] = useState('');
+
     const [car, setCar] = useState(null);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [phone, setPhone] = useState('');
 
     useEffect(() => {
         setEmail(user.email);
@@ -36,12 +40,21 @@ const Order = () => {
         navigate('/');
     };
 
-    const submitOrder = () => {
+    const submitOrder = (e) => {
+        e.preventDefault();
+        if (!email || !firstName || !lastName || !date || !phone) {
+            alert('Заполните все поля');
+            return;
+        }
+
         const formData = new FormData();
-        formData.append('car_id', car.id);
         formData.append('user_email', email);
-        formData.append('date', date);
+        formData.append('user_name', firstName + ' ' + lastName);
+        formData.append('user_phone', phone);
+        formData.append('car_id', car.id);
         formData.append('total_price', car.car_price);
+        formData.append('date', date);
+
         createOrder(formData).then(() => {
             navigate('/');
         });
@@ -49,33 +62,54 @@ const Order = () => {
 
     return (
         <div className='mt-10 grid h-[85vh] place-items-center overflow-hidden bg-secondaryLightGray px-4 md:mt-0'>
-            <div className='rounded border border-secondaryLightGray bg-white px-8 py-6 shadow-lg sm:px-16 sm:py-12'>
+            <form className='rounded border border-secondaryLightGray bg-white px-8 py-6 shadow-lg sm:px-16 sm:py-12'>
                 <h1 className='mb-4 text-center text-2xl font-bold'>
                     Оформление заказа {carName}
                 </h1>
                 <h2 className='mb-4 text-left text-xl font-bold'>
                     Цена: {car.car_price}
                 </h2>
-                <h2 className='mb-4 text-left text-xl font-bold'>
-                    Дата: 01.05.2002
-                </h2>
+                {/* <h2 className='mb-4 text-left text-xl font-bold'>
+                    Дата: {date}
+                </h2> */}
                 <input
                     type='email'
                     value={email}
+                    required
                     onChange={(e) => setEmail(e.target.value)}
                     className='mb-4 block w-full rounded border border-secondaryLightGray px-4 py-2 placeholder-secondaryLightGray focus:border-secondaryLightGray focus:outline-none'
                 />
                 <input
                     type='text'
+                    required
                     placeholder='Ваше Имя'
                     className='mb-4 block w-full rounded border border-secondaryLightGray px-4 py-2 placeholder-secondaryLightGray focus:border-secondaryLightGray focus:outline-none'
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                 />
-                {/* <input
+                <input
+                    type='text'
+                    required
+                    placeholder='Ваша Фамилия'
+                    className='mb-4 block w-full rounded border border-secondaryLightGray px-4 py-2 placeholder-secondaryLightGray focus:border-secondaryLightGray focus:outline-none'
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                />
+                <input
+                    type='tel'
+                    required
+                    placeholder='Ваш номер телефона'
+                    className='mb-4 block w-full rounded border border-secondaryLightGray px-4 py-2 placeholder-secondaryLightGray focus:border-secondaryLightGray focus:outline-none'
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                />
+                <input
                     type='date'
+                    required
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     className='mb-4 block w-full rounded border border-secondaryLightGray px-4 py-2 placeholder-secondaryLightGray focus:border-secondaryLightGray focus:outline-none'
-                /> */}
+                />
                 <div className='flex w-full items-center justify-start gap-2'>
                     <button
                         onClick={submitOrder}
@@ -87,7 +121,7 @@ const Order = () => {
                         Отменить
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };

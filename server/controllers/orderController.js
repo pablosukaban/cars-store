@@ -14,7 +14,25 @@ class ModelsController {
     }
 
     async getAll(req, res) {
-        
+        try {
+            const orders = await Orders.findAll();
+            return res.status(200).json(orders);
+        } catch (e) {
+            return res.status(500).json(e);
+        }
+    }
+
+    async remove(req, res) {
+        try {
+            const order = await Orders.destroy({
+                where: {
+                    id: req.params.id,
+                },
+            });
+            return res.status(200).json(order);
+        } catch (e) {
+            return res.status(500).json(e);
+        }
     }
 }
 

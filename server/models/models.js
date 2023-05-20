@@ -28,6 +28,14 @@ const Orders = sequelize.define('orders', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    user_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    user_phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     car_id: {
         type: DataTypes.INTEGER,
         allowNull: false,

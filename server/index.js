@@ -24,6 +24,10 @@ app.use('/api', router);
 // замыкающий, поэтому в нем не вызвали next()
 app.use(errorHandler);
 
+app.get('/', (req, res) => {
+    res.status(200).json('Hello World');
+});
+
 const start = async () => {
     try {
         await sequelize.authenticate(); // подключение к бд
