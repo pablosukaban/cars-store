@@ -28,7 +28,7 @@ const Header = () => {
                     <div className='mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-2 sm:py-4 md:py-6'>
                         <div className='flex w-full flex-col items-start justify-between sm:flex-row sm:items-center'>
                             <h1 className='mb-2 text-xl font-bold italic'>
-                                Автоэкспесс
+                                Астория
                             </h1>
                             <div className='text-left'>
                                 <span className='font-bold uppercase'>
