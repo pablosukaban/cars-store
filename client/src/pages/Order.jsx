@@ -42,8 +42,8 @@ const Order = () => {
         formData.append('user_email', email);
         formData.append('date', date);
         formData.append('total_price', car.car_price);
-        createOrder(formData).then((data) => {
-            console.log(data);
+        createOrder(formData).then(() => {
+            navigate('/');
         });
     };
 

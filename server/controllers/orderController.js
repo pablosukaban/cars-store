@@ -12,6 +12,10 @@ class ModelsController {
             return res.status(500).json(e);
         }
     }
+
+    async getAll(req, res) {
+        
+    }
 }
 
 export default new ModelsController();
