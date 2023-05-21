@@ -13,6 +13,7 @@ const imageLink =
 
 const Car = () => {
     const { cars, brands, models } = useAppSelector((state) => state.car);
+    const { isAuth } = useAppSelector((state) => state.user);
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -36,6 +37,10 @@ const Car = () => {
     const title = getCarName(brands, car.carBrandId, models, car.carModelId);
 
     const createOrder = (id) => {
+        if (!isAuth) {
+            navigate('/login');
+            return;
+        }
         navigate(`/order/${id}`);
     };
 
