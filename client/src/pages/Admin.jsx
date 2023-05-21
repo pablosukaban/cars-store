@@ -9,9 +9,14 @@ import { getAllOrders, removeOrder } from '../http/orderAPI';
 import { getAllUsers } from '../http/userAPI';
 
 const OrdersTable = ({ orders, handleRowClick }) => {
+    if (orders.length === 0)
+        return (
+            <h1 className='mt-2 text-center text-2xl font-bold'>Заказов нет</h1>
+        );
+
     return (
         <table>
-            <caption className='text-center'>Orders</caption>
+            <caption className='text-center'>Заказы</caption>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -47,7 +52,7 @@ const OrdersTable = ({ orders, handleRowClick }) => {
 const UsersTable = ({ users, handleRowClick }) => {
     return (
         <table>
-            <caption className='text-center'>Orders</caption>
+            <caption className='text-center'>Пользователи</caption>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -126,65 +131,71 @@ const Admin = () => {
     }, []);
 
     return (
-        <div className='relative h-[85vh]'>
-            <div className='mx-auto flex h-full max-w-5xl flex-col justify-center gap-4 px-4'>
-                <button
-                    className='absolute right-5 top-5 rounded bg-secondaryGray bg-opacity-40 px-4 py-2 text-white'
-                    onClick={logOut}
-                >
-                    Выйти
-                </button>
-                <button
-                    className='rounded bg-secondaryGray px-6 py-4 text-xl font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray'
-                    onClick={() => setCarOpened(true)}
-                >
-                    Добавить Автомобиль
-                </button>
-                <button
-                    className='rounded bg-secondaryGray px-6 py-4 text-xl font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray'
-                    onClick={() => setModelOpened(true)}
-                >
-                    Добавить Модель
-                </button>
-                <button
-                    className='rounded bg-secondaryGray px-6 py-4 text-xl font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray'
-                    onClick={() => setBrandOpened(true)}
-                >
-                    Добавить бренд
-                </button>
-                <div className='table-container'>
-                    <div className='flex w-full items-center justify-start gap-4'>
+        <div className='relative h-full px-2 py-2'>
+            <div className='mx-auto h-full max-w-5xl px-4'>
+                <div className='flex w-full justify-end py-4'>
+                    <button
+                        className='rounded bg-secondaryGray bg-opacity-40 px-4 py-2 text-white'
+                        onClick={logOut}
+                    >
+                        Выйти
+                    </button>
+                </div>
+                <div className='flex h-full flex-col justify-start gap-4'>
+                    <div className='mb-4 flex items-center justify-between gap-2'>
                         <button
-                            className={`cursor-pointer rounded border-2 border-primaryOrange p-4 text-xl font-bold ${
-                                currentTab === 'orders' &&
-                                'bg-primaryOrange text-secondaryGray'
-                            }`}
-                            onClick={() => changeTab('orders')}
+                            className='rounded bg-secondaryGray px-6 py-4 text-xl font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray'
+                            onClick={() => setCarOpened(true)}
                         >
-                            ORDERS
+                            Добавить Автомобиль
                         </button>
                         <button
-                            className={`cursor-pointer rounded border-2 border-primaryOrange p-4 text-xl font-bold ${
-                                currentTab === 'users' &&
-                                'bg-primaryOrange text-secondaryGray'
-                            }`}
-                            onClick={() => changeTab('users')}
+                            className='rounded bg-secondaryGray px-6 py-4 text-xl font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray'
+                            onClick={() => setModelOpened(true)}
                         >
-                            USERS
+                            Добавить Модель
+                        </button>
+                        <button
+                            className='rounded bg-secondaryGray px-6 py-4 text-xl font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray'
+                            onClick={() => setBrandOpened(true)}
+                        >
+                            Добавить бренд
                         </button>
                     </div>
-                    {currentTab === 'orders' && (
-                        <OrdersTable
-                            orders={orders}
-                            handleRowClick={handleRowClick}
-                        />
-                    )}
-                    {currentTab === 'users' && (
-                        <UsersTable
-                            users={users}
-                            handleRowClick={() => console.log('yo')}
-                        />
-                    )}
+                    <div className='table-container'>
+                        <div className='flex w-full items-center gap-4'>
+                            <button
+                                className={`w-full cursor-pointer rounded border-2 border-primaryOrange p-4 text-xl font-bold ${
+                                    currentTab === 'orders' &&
+                                    'bg-primaryOrange text-secondaryGray'
+                                }`}
+                                onClick={() => changeTab('orders')}
+                            >
+                                ORDERS
+                            </button>
+                            <button
+                                className={`w-full cursor-pointer rounded border-2 border-primaryOrange p-4 text-xl font-bold ${
+                                    currentTab === 'users' &&
+                                    'bg-primaryOrange text-secondaryGray'
+                                }`}
+                                onClick={() => changeTab('users')}
+                            >
+                                USERS
+                            </button>
+                        </div>
+                        {currentTab === 'orders' && (
+                            <OrdersTable
+                                orders={orders}
+                                handleRowClick={handleRowClick}
+                            />
+                        )}
+                        {currentTab === 'users' && (
+                            <UsersTable
+                                users={users}
+                                handleRowClick={() => console.log('yo')}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
             <CreateBrandModal
