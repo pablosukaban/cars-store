@@ -7,17 +7,17 @@ import { useAppSelector } from '../hooks/redux';
 
 const Header = () => {
     const { isAuth } = useAppSelector((state) => state.user);
-    const [isNavOpened, seIsNavOpened] = useState(false);
+    const [isNavOpened, setIsNavOpened] = useState(false);
 
     const navLinks = isAuth ? isAuthLinks : notAuthLinks;
 
     const openNav = () => {
-        seIsNavOpened(true);
+        setIsNavOpened(true);
         document.body.style.overflow = 'hidden';
     };
 
     const closeNav = () => {
-        seIsNavOpened(false);
+        setIsNavOpened(false);
         document.body.style.overflow = 'auto';
     };
 
@@ -57,6 +57,7 @@ const Header = () => {
                                         className={({ isActive }) =>
                                             isActive ? 'font-bold ' : ''
                                         }
+                                        onClick={closeNav}
                                     >
                                         <li className=''>{item.name}</li>
                                     </NavLink>
@@ -79,8 +80,12 @@ const Header = () => {
                             <IoIosClose className='h-12 w-12' />
                         </button>
                         <ul className='space-y-6'>
-                            {navLinks.map((item, index) => (
-                                <NavLink key={index} to={item.to}>
+                            {navLinks.map((item) => (
+                                <NavLink
+                                    key={item.name}
+                                    to={item.to}
+                                    onClick={closeNav}
+                                >
                                     <li className='cursor-pointer border-b border-white pb-2 pt-4 text-lg uppercase'>
                                         {item.name}
                                     </li>
