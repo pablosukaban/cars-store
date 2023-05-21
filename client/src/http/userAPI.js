@@ -39,3 +39,12 @@ export const getAllUsers = async () => {
     const response = await $authHost.get('/api/user/');
     return response.data;
 };
+
+export const changeInfo = async (id, firstName, lastName, phone) => {
+    const response = await $authHost.put('/api/user/' + id, {
+        first_name: firstName,
+        last_name: lastName,
+        phone,
+    });
+    return response.data;
+};

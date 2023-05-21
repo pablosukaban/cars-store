@@ -1,13 +1,63 @@
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { userSlice } from '../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 import Admin from './Admin';
+import { changeInfo, check } from '../http/userAPI';
 
 const Profile = () => {
     const { user } = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch();
     const { setIsAuth, setUser } = userSlice.actions;
     const navigate = useNavigate();
+
+    const [isEdit, setIsEdit] = useState(false);
+
+    const [newInfo, setNewInfo] = useState({
+        newFirstName: '',
+        newLastName: '',
+        newTel: '',
+    });
+
+    const startEdit = () => {
+        setIsEdit(true);
+    };
+
+    const cancelEdit = () => {
+        setNewInfo({
+            newFirstName: '',
+            newLastName: '',
+            newTel: '',
+        });
+        setIsEdit(false);
+    };
+
+    const saveEdit = () => {
+        if (newInfo.newName !== '' && newInfo.newTel !== '') {
+            changeInfo(
+                user.id,
+                newInfo.newFirstName,
+                newInfo.newLastName,
+                newInfo.newTel
+            );
+            dispatch(
+                setUser({
+                    ...user,
+                    firstName: newInfo.newFirstName,
+                    lastName: newInfo.newLastName,
+                    phone: newInfo.newTel,
+                })
+            );
+            setIsEdit(false);
+        }
+    };
+
+    useEffect(() => {
+        check().then((data) => {
+            dispatch(setIsAuth(true));
+            dispatch(setUser(data));
+        });
+    }, []);
 
     if (user.role === 'ADMIN') {
         return <Admin />;
@@ -32,27 +82,80 @@ const Profile = () => {
             >
                 Выйти
             </button>
-            <div className='rounded border border-secondaryLightGray bg-white px-8 py-6 shadow-lg sm:px-16 sm:py-12'>
+            <div className='flex flex-col gap-2 rounded border border-secondaryLightGray bg-white px-8 py-6 shadow-lg sm:px-16 sm:py-12'>
                 <h1 className='text-center'>Профиль</h1>
                 <div className='flex items-baseline gap-2 p-2 text-lg'>
                     <span>Имя: </span>
-                    <input
-                        type='text'
-                        className='inline-block w-full border p-2'
-                        value={''}
-                    />
+                    {isEdit ? (
+                        <input
+                            value={newInfo.newName}
+                            onChange={(e) =>
+                                setNewInfo({
+                                    ...newInfo,
+                                    newFirstName: e.target.value,
+                                })
+                            }
+                            type='text'
+                            className='inline-block w-full border p-2'
+                        />
+                    ) : (
+                        <span>{user.firstName || ''}</span>
+                    )}
                 </div>
                 <div className='flex items-baseline gap-2 p-2 text-lg'>
-                    Телефон: {user.name || ''}
-                    <input
-                        type='tel'
-                        className='inline-block w-full border p-2'
-                        value={''}
-                    />
+                    <span>Фамилия: </span>
+                    {isEdit ? (
+                        <input
+                            value={newInfo.newName}
+                            onChange={(e) =>
+                                setNewInfo({
+                                    ...newInfo,
+                                    newLastName: e.target.value,
+                                })
+                            }
+                            type='text'
+                            className='inline-block w-full border p-2'
+                        />
+                    ) : (
+                        <span>{user.lastName || ''}</span>
+                    )}
+                </div>
+
+                <div className='flex items-baseline gap-2 p-2 text-lg'>
+                    <span>Телефон:</span>
+                    {isEdit ? (
+                        <input
+                            value={newInfo.newTel}
+                            onChange={(e) =>
+                                setNewInfo({
+                                    ...newInfo,
+                                    newTel: e.target.value,
+                                })
+                            }
+                            type='tel'
+                            className='inline-block w-full border p-2'
+                        />
+                    ) : (
+                        <span>{user.phone || ''}</span>
+                    )}
                 </div>
                 <div className='p-2 text-lg'>ID: {user.id}</div>
                 <div className='p-2 text-lg'>email: {user.email}</div>
                 <div className='p-2 text-lg'>role: {user.role}</div>
+                {isEdit ? (
+                    <div className='flex items-center justify-between'>
+                        <button className='self-end' onClick={saveEdit}>
+                            Сохранить
+                        </button>
+                        <button className='self-end' onClick={cancelEdit}>
+                            Отменить
+                        </button>
+                    </div>
+                ) : (
+                    <button className='self-center' onClick={startEdit}>
+                        Редактировать
+                    </button>
+                )}
             </div>
         </div>
     );

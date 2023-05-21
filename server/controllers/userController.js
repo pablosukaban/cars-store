@@ -75,6 +75,31 @@ class UserController {
 
         return res.json(users);
     }
-}
 
+    async changeInfo(req, res, next) {
+        try {
+            const userId = req.params.id;
+            const { first_name, last_name, phone } = req.body;
+
+            const user = await User.findOne({ where: { id: userId } });
+
+            if (!user) {
+                return res
+                    .status(400)
+                    .json({ message: 'Пользователь не найден' });
+            }
+
+            user.first_name = first_name;
+            user.last_name = last_name;
+            user.phone = phone;
+
+            await user.save();
+
+            return res.json(user);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: 'Что-то пошло не так' });
+        }
+    }
+}
 export default new UserController();
