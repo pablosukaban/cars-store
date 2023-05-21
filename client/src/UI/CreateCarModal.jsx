@@ -1,16 +1,24 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../hooks/redux';
 import { createCar } from '../http/carAPI';
 
 const CreateCarModal = ({ isOpened, setIsOpened }) => {
     const { brands, models } = useAppSelector((state) => state.car);
 
+    const firstBrand = brands.length > 0 ? brands[0].car_brand_name : '';
+    const firstModel = models.length > 0 ? models[0].car_model_name : '';
+
+    const [brand, setBrand] = useState('');
+    const [model, setModel] = useState('');
     const [info, setInfo] = useState([]);
     const [price, setPrice] = useState(30000);
-    const [brand, setBrand] = useState(brands[0].car_brand_name || '');
-    const [model, setModel] = useState(models[0].car_model_name || '');
     const [year, setYear] = useState(2000);
     const [file, setFile] = useState('');
+
+    useEffect(() => {
+        setBrand(firstBrand);
+        setModel(firstModel);
+    }, []);
 
     // нужно хранить объект с брендом и айди, в таблице то хранится айдишники моделей и бренда
 
@@ -80,7 +88,7 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
                 </h1>
                 <select
                     className='w-full rounded border px-4 py-2'
-                    value={brand || brands[0].car_brand_name}
+                    value={brand}
                     onChange={(e) => setBrand(e.target.value)}
                 >
                     {brands.map((brand) => (

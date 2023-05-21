@@ -41,6 +41,7 @@ class UserController {
         const token = generateJwt(user.id, user.email, user.role);
         return res.json({ token });
     }
+
     async login(req, res, next) {
         const { email, password } = req.body;
 
@@ -67,6 +68,12 @@ class UserController {
         const token = generateJwt(user.id, user.email, user.role);
 
         return res.json({ token });
+    }
+
+    async getAllUsers(req, res, next) {
+        const users = await User.findAll();
+
+        return res.json(users);
     }
 }
 

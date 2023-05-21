@@ -6,6 +6,79 @@ import { useAppDispatch } from '../hooks/redux';
 import { userSlice } from '../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { getAllOrders, removeOrder } from '../http/orderAPI';
+import { getAllUsers } from '../http/userAPI';
+
+const OrdersTable = ({ orders, handleRowClick }) => {
+    return (
+        <table>
+            <caption className='text-center'>Orders</caption>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>user_email</th>
+                    <th>user_name</th>
+                    <th>user_phone</th>
+                    <th>car_id</th>
+                    <th>total_price</th>
+                    <th>date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {orders.length > 0 &&
+                    orders.map((item) => (
+                        <tr
+                            key={item.id}
+                            onClick={() => handleRowClick(item.id)}
+                        >
+                            <td>{item.id}</td>
+                            <td>{item.user_email}</td>
+                            <td>{item.user_name}</td>
+                            <td>{item.user_phone}</td>
+                            <td>{item.car_id}</td>
+                            <td>{item.total_price}</td>
+                            <td>{item.date}</td>
+                        </tr>
+                    ))}
+            </tbody>
+        </table>
+    );
+};
+
+const UsersTable = ({ users, handleRowClick }) => {
+    return (
+        <table>
+            <caption className='text-center'>Orders</caption>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>email</th>
+                    {/* <th>password</th> */}
+                    <th>first_name</th>
+                    <th>last_name</th>
+                    <th>phone</th>
+                    <th>role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {users.length > 0 &&
+                    users.map((item) => (
+                        <tr
+                            key={item.id}
+                            onClick={() => handleRowClick(item.id)}
+                        >
+                            <td>{item.id}</td>
+                            <td>{item.email}</td>
+                            {/* <td>{item.password}</td> */}
+                            <td>{item.first_name}</td>
+                            <td>{item.last_name}</td>
+                            <td>{item.phone}</td>
+                            <td>{item.role}</td>
+                        </tr>
+                    ))}
+            </tbody>
+        </table>
+    );
+};
 
 const Admin = () => {
     const [brandOpened, setBrandOpened] = useState(false); //марка
@@ -14,9 +87,16 @@ const Admin = () => {
     // const [confirmDeleteOpened, setConfirmDeleteOpened] = useState(false);
 
     const [orders, setOrders] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const dispatch = useAppDispatch();
     const { setIsAuth, setUser } = userSlice.actions;
+
+    const [currentTab, setCurrentTab] = useState('orders');
+
+    const changeTab = (tabName) => {
+        setCurrentTab(tabName);
+    };
 
     const navigate = useNavigate();
 
@@ -42,6 +122,7 @@ const Admin = () => {
 
     useEffect(() => {
         getAllOrders().then((res) => setOrders(res));
+        getAllUsers().then((res) => setUsers(res));
     }, []);
 
     return (
@@ -72,37 +153,38 @@ const Admin = () => {
                     Добавить бренд
                 </button>
                 <div className='table-container'>
-                    <table>
-                        <caption>Orders</caption>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>user_email</th>
-                                <th>user_name</th>
-                                <th>user_phone</th>
-                                <th>car_id</th>
-                                <th>total_price</th>
-                                <th>date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders.length > 0 &&
-                                orders.map((item) => (
-                                    <tr
-                                        key={item.id}
-                                        onClick={() => handleRowClick(item.id)}
-                                    >
-                                        <td>{item.id}</td>
-                                        <td>{item.user_email}</td>
-                                        <td>{item.user_name}</td>
-                                        <td>{item.user_phone}</td>
-                                        <td>{item.car_id}</td>
-                                        <td>{item.total_price}</td>
-                                        <td>{item.date}</td>
-                                    </tr>
-                                ))}
-                        </tbody>
-                    </table>
+                    <div className='flex w-full items-center justify-start gap-4'>
+                        <button
+                            className={`cursor-pointer rounded border-2 border-primaryOrange p-4 text-xl font-bold ${
+                                currentTab === 'orders' &&
+                                'bg-primaryOrange text-secondaryGray'
+                            }`}
+                            onClick={() => changeTab('orders')}
+                        >
+                            ORDERS
+                        </button>
+                        <button
+                            className={`cursor-pointer rounded border-2 border-primaryOrange p-4 text-xl font-bold ${
+                                currentTab === 'users' &&
+                                'bg-primaryOrange text-secondaryGray'
+                            }`}
+                            onClick={() => changeTab('users')}
+                        >
+                            USERS
+                        </button>
+                    </div>
+                    {currentTab === 'orders' && (
+                        <OrdersTable
+                            orders={orders}
+                            handleRowClick={handleRowClick}
+                        />
+                    )}
+                    {currentTab === 'users' && (
+                        <UsersTable
+                            users={users}
+                            handleRowClick={() => console.log('yo')}
+                        />
+                    )}
                 </div>
             </div>
             <CreateBrandModal
