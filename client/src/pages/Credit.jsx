@@ -2,13 +2,14 @@ import UnderlineBlock from '../UI/UnderlineBlock';
 import BottomImage from '../components/BottomImage';
 import SubHero from '../components/SubHero';
 import { creditArr } from '../utils/data';
+import { motion } from 'framer-motion';
 
 const imageLink =
     'https://static.wixstatic.com/media/548a7f_658a8daed2714200abe5ce17cd7a141f.jpg/v1/fill/w_728,h_640,al_b,q_85,enc_auto/548a7f_658a8daed2714200abe5ce17cd7a141f.jpg';
 
 const Credit = () => {
     return (
-        <main>
+        <motion.main>
             <SubHero imageLink={imageLink} mainText='Кредитование' />
             <div className='bg-secondaryLightGray'>
                 <div className='mx-auto max-w-5xl px-6 py-12 '>
@@ -94,7 +95,7 @@ const Credit = () => {
                 </div>
             </div>
             <BottomImage />
-        </main>
+        </motion.main>
     );
 };
 

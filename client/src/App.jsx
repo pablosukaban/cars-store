@@ -23,7 +23,7 @@ const App = () => {
     }, [dispatch, setBrands, setCars, setModels]);
 
     return (
-        <div className='relative min-h-screen'>
+        <div className='relative min-h-screen scroll-smooth'>
             <CustomRoutes />
         </div>
     );

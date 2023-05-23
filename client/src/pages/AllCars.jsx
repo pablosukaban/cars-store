@@ -4,6 +4,7 @@ import SubHero from '../components/SubHero';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { fetchAllCars, fetchBrands, fetchModels } from '../http/carAPI';
 import { carSlice } from '../store/carsSlice';
+import { motion } from 'framer-motion';
 
 const imageLink =
     'https://static.wixstatic.com/media/548a7f_34163ad1a8274771bb6513a513ff22e8.jpg/v1/fill/w_1500,h_701,al_c,q_85,enc_auto/548a7f_34163ad1a8274771bb6513a513ff22e8.jpg';
@@ -81,7 +82,7 @@ const AllCars = () => {
     }, [dispatch, setBrands, setCars, setModels]);
 
     return (
-        <main>
+        <motion.main>
             <SubHero imageLink={imageLink} mainText='Все автомобили' />
             <div className='bg-secondaryLightGray py-16'>
                 <div className='mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 '>
@@ -113,7 +114,7 @@ const AllCars = () => {
                     </div>
                 </div>
             </div>
-        </main>
+        </motion.main>
     );
 };
 

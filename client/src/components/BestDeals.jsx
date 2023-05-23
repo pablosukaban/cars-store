@@ -1,9 +1,15 @@
+import { useNavigate } from 'react-router-dom';
+import Button from '../UI/Button';
 import UnderlineBlock from '../UI/UnderlineBlock';
 import { useAppSelector } from '../hooks/redux';
 import CarsList from './CarsList';
+import { NEW_ROUTE } from '../utils/constants';
 
 const BestDeals = () => {
     const { cars } = useAppSelector((state) => state.car);
+
+    const navigate = useNavigate();
+
     return (
         <section className='bg-secondaryLightGray'>
             <div className='mx-auto max-w-7xl space-y-8 px-4 py-12'>
@@ -22,9 +28,10 @@ const BestDeals = () => {
                     <div>
                         <CarsList givenArr={cars} />
                     </div>
-                    <button className='rounded bg-primaryOrange px-12 py-4 font-semibold uppercase transition hover:bg-secondaryGray hover:text-white'>
-                        Подробнее
-                    </button>
+                    <Button
+                        isOrange={true}
+                        onClick={() => navigate(NEW_ROUTE)}
+                    />
                 </div>
             </div>
         </section>

@@ -49,17 +49,19 @@ const Header = () => {
                     {/* на компах */}
                     <nav className='bg-primaryOrange'>
                         <div className='mx-auto max-w-7xl'>
-                            <ul className='hidden w-full justify-between gap-4 px-3 py-2 uppercase text-secondaryGray sm:flex lg:py-4'>
+                            <ul className='hidden w-full justify-between gap-4 px-3 py-2 uppercase text-secondaryGray  sm:flex lg:py-4'>
                                 {navLinks.map((item, index) => (
                                     <NavLink
                                         key={index}
                                         to={item.to}
                                         className={({ isActive }) =>
-                                            isActive ? 'font-bold ' : ''
+                                            isActive ? 'text-gray-500' : ''
                                         }
                                         onClick={closeNav}
                                     >
-                                        <li className=''>{item.name}</li>
+                                        <li className='transition hover:text-gray-500'>
+                                            {item.name}
+                                        </li>
                                     </NavLink>
                                 ))}
                             </ul>

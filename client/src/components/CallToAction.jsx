@@ -1,7 +1,9 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CREDIT_ROUTE } from '../utils/constants';
+import Button from '../UI/Button';
 
 const CallToAction = () => {
+    const navigate = useNavigate();
     return (
         <section className='bg-primaryOrange py-12'>
             <div className='mx-auto max-w-7xl px-4'>
@@ -13,11 +15,10 @@ const CallToAction = () => {
                         Будем рады помочь: <br className='block sm:hidden' />{' '}
                         процентная ставка — до 0,9% годовых
                     </p>
-                    <Link to={CREDIT_ROUTE}>
-                        <button className='rounded bg-secondaryGray px-12 py-4 font-semibold uppercase text-white transition hover:bg-white hover:text-secondaryGray'>
-                            Подробнее
-                        </button>
-                    </Link>
+                    <Button
+                        isOrange={false}
+                        onClick={() => navigate(CREDIT_ROUTE)}
+                    />
                 </div>
             </div>
         </section>
