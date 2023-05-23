@@ -48,8 +48,14 @@ const Credit = () => {
                             aut enim, illo tempora consequuntur ipsa!
                         </p>
                     </div>
-                    <div className='relative z-40 grid gap-y-2 bg-white md:-bottom-64 md:grid-cols-2'>
-                        <div className='grid place-items-center bg-primaryOrange p-8 text-center text-secondaryGray md:p-4'>
+                    <div className='relative z-40 grid gap-y-2 bg-transparent md:-bottom-64 md:grid-cols-2'>
+                        <motion.div
+                            initial={{ y: 200, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 1, delay: 0.7 }}
+                            viewport={{ once: true }}
+                            className='grid place-items-center bg-primaryOrange p-8 text-center text-secondaryGray md:p-4'
+                        >
                             <div className='px-4'>
                                 <h2 className='mb-2 text-2xl font-bold md:text-4xl'>
                                     Обратитесь сегодня!
@@ -59,8 +65,14 @@ const Credit = () => {
                                     СВЯЖЕМСЯ С ВАМИ
                                 </p>
                             </div>
-                        </div>
-                        <div>
+                        </motion.div>
+                        <motion.div
+                            className='bg-white'
+                            initial={{ y: 200, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 1, delay: 1 }}
+                            viewport={{ once: true }}
+                        >
                             <form
                                 action=''
                                 className='flex flex-col gap-4 p-6 md:p-12'
@@ -90,7 +102,7 @@ const Credit = () => {
                                     Отправить
                                 </button>
                             </form>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </div>
