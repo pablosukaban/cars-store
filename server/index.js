@@ -1,7 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import sequelize from './db.js';
-import models from './models/models.js';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
 import router from './routes/index.js';
@@ -19,9 +18,6 @@ app.use(express.static(path.resolve('static')));
 app.use(fileUpload({}));
 app.use('/api', router);
 
-// Обработка ошибки, подключается в последнюю очередь
-// будет вызвана функия errorHandler компонента ErrorHandlingMiddleware.js
-// замыкающий, поэтому в нем не вызвали next()
 app.use(errorHandler);
 
 app.get('/', (req, res) => {
@@ -32,10 +28,10 @@ const start = async () => {
     try {
         await sequelize.authenticate(); // подключение к бд
         await sequelize.sync(); // сверяет состояниебд со схемой данных
-        console.log('Connection has been established successfully.');
+        console.log('Соединение установлено успешно');
 
         app.listen(PORT, () => {
-            console.log(`Server started on port ${PORT}`);
+            console.log(`Сервер запущен на порту ${PORT}`);
         });
     } catch (error) {
         console.log(error);

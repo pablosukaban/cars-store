@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-
 import { useAppDispatch } from './hooks/redux';
 import { check } from './http/userAPI';
 import { userSlice } from './store/userSlice';
@@ -11,14 +10,12 @@ const App = () => {
     const { setIsAuth, setUser } = userSlice.actions;
     const { setBrands, setCars, setModels } = carSlice.actions;
     const dispatch = useAppDispatch();
-
     useEffect(() => {
         check().then((data) => {
             dispatch(setIsAuth(true));
             dispatch(setUser(data));
         });
     }, [dispatch, setIsAuth, setUser]);
-
     useEffect(() => {
         fetchModels().then((data) => dispatch(setModels(data)));
         fetchBrands().then((data) => dispatch(setBrands(data)));

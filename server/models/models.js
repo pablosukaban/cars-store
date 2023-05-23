@@ -11,44 +11,21 @@ const User = sequelize.define('user', {
     role: { type: DataTypes.STRING, defaultValue: 'USER' },
 });
 
-// const Basket = sequelize.define('basket', {
-//     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-//     user_id: { type: DataTypes.INTEGER, allowNull: false },
-//     total_price: { type: DataTypes.INTEGER, allowNull: false },
-//     car_id: { type: DataTypes.INTEGER, allowNull: false },
-//     date: { type: DataTypes.DATE, allowNull: false },
-// });
-
-// const BasketCar = sequelize.define('basket_car', {
-//     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-// });
-
 const Orders = sequelize.define('orders', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    user_email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    user_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    user_phone: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    car_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    total_price: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-    },
-    date: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
+    user_email: { type: DataTypes.STRING, allowNull: false },
+    user_name: { type: DataTypes.STRING, allowNull: false },
+    user_phone: { type: DataTypes.STRING, allowNull: false },
+    car_id: { type: DataTypes.INTEGER, allowNull: false },
+    manager_id: { type: DataTypes.INTEGER, allowNull: false },
+    total_price: { type: DataTypes.FLOAT, allowNull: false },
+    date: { type: DataTypes.DATE, allowNull: false },
+});
+
+const Manager = sequelize.define('manager', {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    fullName: { type: DataTypes.STRING, allowNull: false },
+    phoneNumber: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Car = sequelize.define('car', {
@@ -67,11 +44,7 @@ const CarModel = sequelize.define('car_model', {
 
 const CarBrand = sequelize.define('car_brand', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    car_brand_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-    },
+    car_brand_name: { type: DataTypes.STRING, allowNull: false, unique: true },
 });
 
 const CarInfo = sequelize.define('car_info', {
@@ -83,15 +56,6 @@ const CarInfo = sequelize.define('car_info', {
 const ModelBrand = sequelize.define('model_brand', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
-
-// User.hasOne(Basket);
-// Basket.belongsTo(User);
-
-// Basket.hasMany(BasketCar);
-// BasketCar.belongsTo(Basket);
-
-// Car.hasMany(BasketCar);
-// BasketCar.belongsTo(Car);
 
 CarModel.hasMany(Car);
 Car.belongsTo(CarModel);
@@ -110,12 +74,23 @@ Orders.belongsTo(Car, { foreignKey: 'car_id' });
 
 export default {
     User,
-    // Basket,
-    // BasketCar,
     Orders,
     Car,
     CarModel,
     CarBrand,
     CarInfo,
     ModelBrand,
+    Manager,
 };
+
+// Basket,
+// BasketCar,
+
+// User.hasOne(Basket);
+// Basket.belongsTo(User);
+
+// Basket.hasMany(BasketCar);
+// BasketCar.belongsTo(Basket);
+
+// Car.hasMany(BasketCar);
+// BasketCar.belongsTo(Car);
