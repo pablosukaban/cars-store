@@ -18,7 +18,7 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
     useEffect(() => {
         setBrand(firstBrand);
         setModel(firstModel);
-    }, []);
+    }, [firstBrand, firstModel]);
 
     // нужно хранить объект с брендом и айди, в таблице то хранится айдишники моделей и бренда
 
@@ -73,7 +73,7 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
 
     return (
         <div
-            className={`fixed left-0 top-0 z-[100] flex min-h-screen w-full items-center justify-center bg-gray-900 bg-opacity-50 ${
+            className={`fixed left-0 top-0 z-[100] flex h-screen w-full items-center justify-center bg-gray-900 bg-opacity-50 p-4 ${
                 isOpened ? '' : 'hidden'
             }`}
             onClick={handleContainerClick}
@@ -81,7 +81,7 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
         >
             <form
                 ref={formRef}
-                className='flex w-full max-w-[600px] flex-col items-center justify-center gap-4 rounded-lg bg-white p-6'
+                className='flex w-full max-w-[600px] flex-col items-center justify-center gap-4 overflow-y-scroll rounded-lg bg-white p-6'
             >
                 <h1 className='w-full border-b border-slate-300 p-1 text-2xl font-bold'>
                     Добавить автомобиль
@@ -139,43 +139,49 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
                 >
                     Добавить новое свойство
                 </button>
-                {info.length > 0 &&
-                    info.map((item) => (
-                        <div
-                            key={item.id}
-                            className='flex w-full items-center justify-between gap-2'
-                        >
-                            <input
-                                type='text'
-                                placeholder='Название'
-                                className='w-full border px-4 py-3'
-                                value={item.titlle}
-                                onChange={(e) =>
-                                    changeInfo('title', e.target.value, item.id)
-                                }
-                            />
-                            <input
-                                type='text'
-                                placeholder='Значение'
-                                className='w-full border px-4 py-3'
-                                value={item.description}
-                                onChange={(e) =>
-                                    changeInfo(
-                                        'description',
-                                        e.target.value,
-                                        item.id
-                                    )
-                                }
-                            />
-                            <button
-                                type='button'
-                                className='w-full border border-red-400 px-4 py-3'
-                                onClick={() => deleteInfo(item.id)}
+                <div className='max-h-[220px] space-y-2 overflow-y-scroll'>
+                    {info.length > 0 &&
+                        info.map((item) => (
+                            <div
+                                key={item.id}
+                                className='flex w-full items-center justify-between gap-2'
                             >
-                                Удалить
-                            </button>
-                        </div>
-                    ))}
+                                <input
+                                    type='text'
+                                    placeholder='Название'
+                                    className='w-full border px-4 py-3'
+                                    value={item.titlle}
+                                    onChange={(e) =>
+                                        changeInfo(
+                                            'title',
+                                            e.target.value,
+                                            item.id
+                                        )
+                                    }
+                                />
+                                <input
+                                    type='text'
+                                    placeholder='Значение'
+                                    className='w-full border px-4 py-3'
+                                    value={item.description}
+                                    onChange={(e) =>
+                                        changeInfo(
+                                            'description',
+                                            e.target.value,
+                                            item.id
+                                        )
+                                    }
+                                />
+                                <button
+                                    type='button'
+                                    className='w-full border border-red-400 px-4 py-3'
+                                    onClick={() => deleteInfo(item.id)}
+                                >
+                                    Удалить
+                                </button>
+                            </div>
+                        ))}
+                </div>
                 <div className='flex w-full items-center justify-start gap-2'>
                     <button
                         onClick={handleSubmit}

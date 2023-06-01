@@ -16,6 +16,7 @@ const Car = () => {
     const { isAuth } = useAppSelector((state) => state.user);
     const { id } = useParams();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     const [car, setCar] = useState({ info: [] });
 
@@ -23,7 +24,9 @@ const Car = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        fetchAllCars().then((data) => dispatch(setCars(data.rows)));
+        fetchAllCars()
+            .then(() => setLoading(false))
+            .then((data) => dispatch(setCars(data.rows)));
     }, [dispatch, setCars]);
 
     useEffect(() => {
@@ -43,6 +46,8 @@ const Car = () => {
         }
         navigate(`/order/${id}`);
     };
+
+    if (loading) return <Loader />;
 
     return (
         <main className=''>
@@ -73,16 +78,14 @@ const Car = () => {
                             <h1 className='text-lg font-bold md:text-xl lg:text-2xl'>
                                 Характеристики
                             </h1>
-                            {car.info.length > 0 &&
-                                car.info.map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className='flex justify-between border-b pb-1 pt-2 lg:text-xl'
-                                    >
-                                        <span>{item.title}</span>
-                                        <span>{item.description}</span>
-                                    </div>
-                                ))}
+                            <div className='flex justify-between border-b pb-1 pt-2 lg:text-xl'>
+                                <span>Кузов</span>
+                                <span>{car.body_type}</span>
+                            </div>
+                            <div className='flex justify-between border-b pb-1 pt-2 lg:text-xl'>
+                                <span>Цвет</span>
+                                <span>{car.car_color}</span>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -90,12 +93,32 @@ const Car = () => {
                             Описание
                         </h1>
                         <p className='lg:text-xl'>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Unde aut reiciendis repellendus laborum
-                            tempore nemo impedit eligendi voluptates. Nobis
-                            reiciendis veniam nostrum at ab dignissimos aliquam
-                            quod facere consequuntur doloribus.
+                            Toyota Camry 2018 - это изысканный седан, который
+                            сочетает в себе элегантный дизайн, просторный и
+                            комфортабельный салон, а также передовые технологии.
+                            Он обеспечивает плавное и динамичное вождение,
+                            благодаря различным вариантам мощных и экономичных
+                            двигателей. С системой безопасности Toyota Safety
+                            Sense и современными функциями инфотейнмента, Toyota
+                            Camry 2018 предлагает уверенность и удовольствие от
+                            каждой поездки. Этот автомобиль идеально подходит
+                            для тех, кто ценит стиль, комфорт и надежность.
                         </p>
+                    </div>
+                    <div>
+                        <h1 className='text-lg font-bold md:text-xl lg:text-2xl'>
+                            Допобедительные Характеристики
+                        </h1>
+                        {car.info.length > 0 &&
+                            car.info.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className='flex justify-between border-b pb-1 pt-2 lg:text-xl'
+                                >
+                                    <span>{item.title}</span>
+                                    <span>{item.description}</span>
+                                </div>
+                            ))}
                     </div>
                     <div>
                         <h1 className='mb-2 text-lg font-bold lg:text-2xl'>

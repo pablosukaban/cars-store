@@ -163,6 +163,9 @@ const Admin = () => {
                         </button>
                     </div>
                     <div className='table-container'>
+                        <h1 className='mb-2 text-center text-3xl font-bold'>
+                            Таблицы
+                        </h1>
                         <div className='flex w-full items-center gap-4'>
                             <button
                                 className={`w-full cursor-pointer rounded border-2 border-primaryOrange p-4 text-xl font-bold ${

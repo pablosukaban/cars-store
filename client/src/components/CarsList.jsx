@@ -3,6 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../hooks/redux';
 import Loader from './Loader';
 import { getCarName } from '../utils/utils';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ru';
+
+dayjs.extend(relativeTime);
+dayjs.locale('ru');
 
 const CarLi = ({ item, models, brands, handleItemClick }) => {
     const [title, setTitle] = useState('');
@@ -13,7 +19,7 @@ const CarLi = ({ item, models, brands, handleItemClick }) => {
 
     return (
         <li
-            className='flex cursor-pointer flex-col items-center justify-center text-center text-gray-500'
+            className='flex cursor-pointer flex-col items-center justify-center text-gray-500'
             onClick={() => handleItemClick(item.id)}
         >
             <div className='px-6'>
@@ -22,8 +28,14 @@ const CarLi = ({ item, models, brands, handleItemClick }) => {
                     src={import.meta.env.VITE_API_URL + item.car_image}
                 />
             </div>
-            <h3 className='mt-4 text-xl font-bold'>{title}</h3>
-            <h4>{item.year_of_manufacture}</h4>
+            <h3 className='mt-4 w-full px-6 text-xl font-bold'>
+                <span>{title}, </span>
+                <span className=''>{item.year_of_manufacture} год</span>
+            </h3>
+            <h4 className='w-full px-6 text-left'>{item.car_price} ₽</h4>
+            <h5 className='w-full px-6 text-left font-thin'>
+                {dayjs(item.created_at).fromNow()}
+            </h5>
             {/* <p className='max-w-[405px] text-lg'>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam,
                 repudiandae!

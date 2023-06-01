@@ -2,18 +2,18 @@ import { $authHost, $host } from '.';
 import jwt_decode from 'jwt-decode';
 
 export const registration = async (email, password) => {
-    const login = email.split('@')[0];
-    let role;
-    if (login === 'admin') {
-        role = 'ADMIN';
-    } else {
-        role = 'USER';
-    }
+    // const login = email.split('@')[0];
+    // let role;
+    // if (login === 'admin') {
+    //     role = 'ADMIN';
+    // } else {
+    //     role = 'USER';
+    // }
 
     const response = await $host.post('/api/user/registration', {
         email,
         password,
-        role: role,
+        role: 'USER',
     });
 
     localStorage.setItem('token', response.data.token);
