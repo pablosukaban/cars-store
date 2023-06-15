@@ -19,6 +19,12 @@ class BrandController {
         const brand = await CarBrand.findOne({ where: { id } });
         return res.json(brand);
     }
+
+    async delete(req, res) {
+        const { id } = req.params;
+        const brand = await CarBrand.destroy({ where: { id } });
+        return res.json(brand);
+    }
 }
 
 export default new BrandController();

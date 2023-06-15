@@ -37,7 +37,7 @@ th {
 caption {
     font-size: 1.3rem;
     font-weight: 700;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
 }
 
 tr:nth-of-type(2n) {

@@ -1,11 +1,11 @@
 import Models from '../models/models.js';
 
-const { CarModel } = Models;
+const {CarModel} = Models;
 
 class ModelController {
     async create(req, res) {
-        const { car_model_name } = req.body;
-        const model = await CarModel.create({ car_model_name });
+        const {car_model_name} = req.body;
+        const model = await CarModel.create({car_model_name});
         return res.json(model);
     }
 
@@ -15,8 +15,14 @@ class ModelController {
     }
 
     async getOne(req, res) {
-        const { id } = req.params;
-        const model = await CarModel.findOne({ where: { id } });
+        const {id} = req.params;
+        const model = await CarModel.findOne({where: {id}});
+        res.json(model);
+    }
+
+    async delete(req, res) {
+        const {id} = req.params;
+        const model = await CarModel.destroy({where: {id}});
         res.json(model);
     }
 }

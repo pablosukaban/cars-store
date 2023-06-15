@@ -122,11 +122,6 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
             </option>
           ))}
         </select>
-        {/* <input
-                    type='text'
-                    placeholder=''
-                    className='border px-6 py-4'
-                /> */}
         <label className={"w-full"}>
           Цена, руб.
           <input
@@ -148,7 +143,7 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
           />
         </label>
         <label className={"cursor-pointer self-start bg-secondaryGray p-4 text-white"}>
-          Фото
+          {file.length === 0 ? "Добавить фото" : file.name}
           <input type="file" onChange={changeFile} className="hidden" />
         </label>
         <button onClick={addInfo} type="button" className="self-start bg-secondaryGray px-4 py-4 text-white">

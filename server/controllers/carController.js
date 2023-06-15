@@ -1,11 +1,12 @@
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import path from 'path';
 
 import Models from '../models/models.js';
 
 import ApiError from '../error/ApiError.js';
 
-const { Car, CarInfo } = Models;
+const {Car, CarInfo} = Models;
+
 class CarController {
     async create(req, res, next) {
         try {
@@ -18,7 +19,7 @@ class CarController {
                 car_price,
                 info,
             } = req.body;
-            const { car_image } = req.files;
+            const {car_image} = req.files;
 
             const fileName = uuidv4() + '.jpg';
 
@@ -52,7 +53,7 @@ class CarController {
     }
 
     async getAll(req, res) {
-        let { carModelId, carBrandId, limit, page } = req.query;
+        let {carModelId, carBrandId, limit, page} = req.query;
 
         page = page || 1;
         limit = limit || 9;
@@ -61,12 +62,12 @@ class CarController {
         let cars;
 
         if (!carBrandId && !carModelId) {
-            cars = await Car.findAndCountAll({ limit, offset });
+            cars = await Car.findAndCountAll({limit, offset});
         }
 
         if (carBrandId && !carModelId) {
             cars = await Car.findAndCountAll({
-                where: { carBrandId },
+                where: {carBrandId},
                 limit,
                 offset,
             });
@@ -74,7 +75,7 @@ class CarController {
 
         if (!carBrandId && carModelId) {
             cars = await Car.findAndCountAll({
-                where: { carModelId },
+                where: {carModelId},
                 limit,
                 offset,
             });
@@ -82,7 +83,7 @@ class CarController {
 
         if (carBrandId && carModelId) {
             cars = await Car.findAndCountAll({
-                where: { carModelId, carBrandId },
+                where: {carModelId, carBrandId},
                 limit,
                 offset,
             });
@@ -92,14 +93,26 @@ class CarController {
     }
 
     async getOne(req, res) {
-        const { id } = req.params;
+        const {id} = req.params;
 
         const car = await Car.findOne({
-            where: { id },
-            include: [{ model: CarInfo, as: 'info' }],
+            where: {id},
+            include: [{model: CarInfo, as: 'info'}],
         });
 
         return res.json(car);
+    }
+
+    async delete(req, res) {
+        const {id} = req.params;
+
+        await Car.destroy({
+            where: {id},
+        });
+
+        return res.json({
+            message: 'Car deleted',
+        })
     }
 }
 

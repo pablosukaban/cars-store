@@ -6,7 +6,7 @@ class ModelsController {
     async create(req, res) {
         try {
             const order = await Orders.create(req.body);
-            console.log(req.user);
+            // console.log(req.user);
             return res.status(201).json(order);
         } catch (e) {
             return res.status(500).json(e);

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import {Router} from 'express';
 import modelController from '../controllers/modelController.js';
 import checkRoleMiddleware from '../middleware/checkRoleMiddleware.js';
 
@@ -7,5 +7,6 @@ const router = new Router();
 router.post('/', checkRoleMiddleware('ADMIN'), modelController.create);
 router.get('/', modelController.getAll);
 router.get('/:id', modelController.getOne);
+router.delete('/:id', modelController.delete);
 
 export default router;
