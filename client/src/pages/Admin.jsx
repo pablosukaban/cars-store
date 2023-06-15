@@ -106,6 +106,7 @@ const Admin = () => {
     const navigate = useNavigate();
 
     const logOut = () => {
+        navigate('/');
         dispatch(setIsAuth(false));
         dispatch(
             setUser({
@@ -113,7 +114,6 @@ const Admin = () => {
                 password: '',
             })
         );
-        navigate('/login');
     };
 
     const handleRowClick = (id) => {
@@ -132,7 +132,7 @@ const Admin = () => {
 
     return (
         <div className='relative h-full px-2 py-2'>
-            <div className='mx-auto h-full max-w-5xl px-4'>
+            <div className='mx-auto h-full max-w-7xl px-4'>
                 <div className='flex w-full justify-end py-4'>
                     <button
                         className='rounded bg-secondaryGray bg-opacity-40 px-4 py-2 text-white'
@@ -141,8 +141,8 @@ const Admin = () => {
                         Выйти
                     </button>
                 </div>
-                <div className='flex h-full flex-col justify-start gap-4'>
-                    <div className='mb-4 flex items-center justify-between gap-2'>
+                <div className='flex h-full flex-col justify-start gap-4 '>
+                    <div className='mb-4 flex flex-col items-stretch justify-between gap-2 rounded-md border p-4 shadow md:flex-row md:items-center'>
                         <button
                             className='rounded bg-secondaryGray px-6 py-4 text-xl font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray'
                             onClick={() => setCarOpened(true)}
@@ -162,11 +162,11 @@ const Admin = () => {
                             Добавить бренд
                         </button>
                     </div>
-                    <div className='table-container'>
+                    <div className='table-container rounded-md border p-4 shadow'>
                         <h1 className='mb-2 text-center text-3xl font-bold'>
                             Таблицы
                         </h1>
-                        <div className='flex w-full items-center gap-4'>
+                        <div className='flex w-full flex-col items-stretch gap-4 md:flex-row md:items-center'>
                             <button
                                 className={`w-full cursor-pointer rounded border-2 border-primaryOrange p-4 text-xl font-bold ${
                                     currentTab === 'orders' &&

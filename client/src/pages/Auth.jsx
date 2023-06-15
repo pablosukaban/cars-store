@@ -12,6 +12,8 @@ const Auth = () => {
     const [email, setEmail] = useState('admin@mail.ru');
     const [password, setPassword] = useState('123');
 
+    const [loading, setLoading] = useState(false);
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -22,6 +24,7 @@ const Auth = () => {
 
     const handleButtonClick = async () => {
         try {
+            setLoading(true)
             let newUser;
 
             if (isLoginPage) {
@@ -36,6 +39,8 @@ const Auth = () => {
             navigate('/');
         } catch (error) {
             alert(error.response.data.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -97,8 +102,9 @@ const Auth = () => {
                         </div>
                     )}
                     <button
-                        className='rounded border bg-secondaryGray px-6 py-2 text-lg font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray'
+                        className={`rounded border bg-secondaryGray px-6 py-2 text-lg font-bold text-white transition hover:bg-primaryOrange hover:text-secondaryGray ${loading && 'opacity-50 cursor-wait'}`}
                         onClick={handleButtonClick}
+                        disabled={loading}
                     >
                         {isLoginPage ? 'Вход' : 'Регистрация'}
                     </button>

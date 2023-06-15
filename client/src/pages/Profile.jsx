@@ -57,13 +57,14 @@ const Profile = () => {
             dispatch(setIsAuth(true));
             dispatch(setUser(data));
         });
-    }, []);
+    }, [dispatch, setIsAuth, setUser]);
 
     if (user.role === 'ADMIN') {
         return <Admin />;
     }
 
     const logOut = () => {
+        navigate('/');
         dispatch(setIsAuth(false));
         dispatch(
             setUser({
@@ -71,7 +72,6 @@ const Profile = () => {
                 password: '',
             })
         );
-        navigate('/login');
     };
 
     return (
