@@ -140,6 +140,7 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
         setYear("");
         setBodyType("");
         setColor("");
+        setFile("");
       });
   };
 
