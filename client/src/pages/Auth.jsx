@@ -8,9 +8,9 @@ import { userSlice } from '../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
-    const [name, setName] = useState('i');
-    const [email, setEmail] = useState('admin@mail.ru');
-    const [password, setPassword] = useState('123');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const [loading, setLoading] = useState(false);
 
