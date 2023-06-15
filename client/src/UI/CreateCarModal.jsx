@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useAppSelector } from "../hooks/redux";
 import { createCar } from "../http/carAPI";
 
@@ -12,24 +12,26 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
   const [model, setModel] = useState("");
   const [info, setInfo] = useState([
     {
-      id: Date.now(),
-      title: "Цвет",
-      description: "",
-    },
-    {
-      id: Date.now(),
+      id: Date.now() + 1,
       title: "Комплектация",
       description: "",
     },
     {
-      id: Date.now(),
+      id: Date.now() + 2,
       title: "Коробка",
+      description: "",
+    },
+    {
+      id: Date.now() + 3,
+      title: "Пробег, км",
       description: "",
     },
   ]);
   const [price, setPrice] = useState(null);
   const [year, setYear] = useState(null);
   const [file, setFile] = useState("");
+  const [bodyType, setBodyType] = useState("");
+  const [color, setColor] = useState("");
 
   const [loading, setLoading] = useState(false);
 
@@ -102,8 +104,8 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
     formData.append("car_model_id", modelId);
     formData.append("car_brand_id", brandId);
     formData.append("year_of_manufacture", `${year}`);
-    formData.append("body_type", "Sedan");
-    formData.append("car_color", "red");
+    formData.append("body_type", bodyType);
+    formData.append("car_color", color);
     formData.append("car_price", `${price}`);
     formData.append("car_image", file);
     formData.append("info", JSON.stringify(info));
@@ -124,7 +126,7 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
 
   return (
     <div
-      className={`fixed left-0 top-0 z-[100] flex h-screen w-full items-center justify-center bg-gray-900 bg-opacity-50 p-4 ${
+      className={`fixed left-0 top-0 z-[100] flex h-screen w-full items-center justify-center overflow-y-scroll bg-gray-900 bg-opacity-50 p-4 ${
         isOpened ? "" : "hidden"
       }`}
       onClick={handleContainerClick}
@@ -159,32 +161,54 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
             ))}
           </select>
         </label>
-        <label className={"w-full"}>
-          Цена, руб.
-          <input
-            type="number"
-            placeholder="Цена"
-            className="w-full border px-6 py-3"
-            value={price}
-            onChange={(e) => setPrice(+e.target.value)}
-          />
-        </label>
-        <label className={"w-full"}>
-          Год выпуска
-          <input
-            type="number"
-            placeholder="Год выпуска"
-            className="w-full border px-6 py-3"
-            value={year}
-            onChange={(e) => setYear(+e.target.value)}
-          />
-        </label>
+        <div className={"grid grid-cols-1 gap-2 md:grid-cols-2"}>
+          <label className={"w-full"}>
+            Цена, руб.
+            <input
+              type="number"
+              placeholder="Цена"
+              className="w-full border px-6 py-3"
+              value={price}
+              onChange={(e) => setPrice(+e.target.value)}
+            />
+          </label>
+          <label className={"w-full"}>
+            Год выпуска
+            <input
+              type="number"
+              placeholder="Год выпуска"
+              className="w-full border px-6 py-3"
+              value={year}
+              onChange={(e) => setYear(+e.target.value)}
+            />
+          </label>
+          <label className={"w-full"}>
+            Тип кузова
+            <input
+              type="number"
+              placeholder="Тип кузова"
+              className="w-full border px-6 py-3"
+              value={bodyType}
+              onChange={(e) => setBodyType(e.target.value)}
+            />
+          </label>
+          <label className={"w-full"}>
+            Цвет
+            <input
+              type="number"
+              placeholder="Цвет"
+              className="w-full border px-6 py-3"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+            />
+          </label>
+        </div>
         <label className={"cursor-pointer self-start bg-secondaryGray p-4 text-white"}>
           {file.length === 0 ? "Добавить фото" : file.name}
           <input type="file" onChange={changeFile} className="hidden" />
         </label>
         <button onClick={addInfo} type="button" className="self-start bg-secondaryGray px-4 py-4 text-white">
-          Добавить новое свойство
+          Добавить информацию
         </button>
         <div className="max-h-[220px] space-y-2 overflow-y-scroll">
           {info.length > 0 &&
