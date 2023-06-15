@@ -5,22 +5,38 @@ import { createCar } from "../http/carAPI";
 const CreateCarModal = ({ isOpened, setIsOpened }) => {
   const { brands, models } = useAppSelector((state) => state.car);
 
-  const firstBrand = brands.length > 0 ? brands[0].car_brand_name : "";
-  const firstModel = models.length > 0 ? models[0].car_model_name : "";
+  // const firstBrand = brands.length > 0 ? brands[0].car_brand_name : "";
+  // const firstModel = models.length > 0 ? models[0].car_model_name : "";
 
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
-  const [info, setInfo] = useState([]);
-  const [price, setPrice] = useState(30000);
-  const [year, setYear] = useState(2000);
+  const [info, setInfo] = useState([
+    {
+      id: Date.now(),
+      title: "Цвет",
+      description: "",
+    },
+    {
+      id: Date.now(),
+      title: "Комплектация",
+      description: "",
+    },
+    {
+      id: Date.now(),
+      title: "Коробка",
+      description: "",
+    },
+  ]);
+  const [price, setPrice] = useState(null);
+  const [year, setYear] = useState(null);
   const [file, setFile] = useState("");
 
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setBrand(firstBrand);
-    setModel(firstModel);
-  }, [firstBrand, firstModel]);
+  // useEffect(() => {
+  //   setBrand(firstBrand);
+  //   setModel(firstModel);
+  // }, [firstBrand, firstModel]);
 
   // нужно хранить объект с брендом и айди, в таблице то хранится айдишники моделей и бренда
 
@@ -58,6 +74,21 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
 
     if (file === "") {
       alert("Добавьте фото автомобиля");
+      return;
+    }
+
+    if (!price || price <= 0) {
+      alert("Введите цену автомобиля");
+      return;
+    }
+
+    if (file.name.split(".")[1] !== "jpg" && file.name.split(".")[1] !== "png") {
+      alert("Фото должно быть в формате jpg или png");
+      return;
+    }
+
+    if (info.some((item) => item.title === "" || item.description === "")) {
+      alert("Заполните все поля");
       return;
     }
 
@@ -102,26 +133,32 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
         ref={formRef}
         className="flex w-full max-w-[600px] flex-col items-center justify-center gap-4 overflow-y-scroll rounded-lg bg-white p-6">
         <h1 className="w-full border-b border-slate-300 p-1 text-2xl font-bold">Добавить автомобиль</h1>
-        <select
-          id={"brand"}
-          className="w-full rounded border px-4 py-2"
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}>
-          <option disabled={true}>Выберите бренд авто</option>
-          {brands.map((brand) => (
-            <option key={brand.id} value={brand.car_brand_name}>
-              {brand.car_brand_name}
-            </option>
-          ))}
-        </select>
-        <select className="w-full rounded border px-4 py-2" value={model} onChange={(e) => setModel(e.target.value)}>
-          <option disabled={true}>Выберите модель авто</option>
-          {models.map((model) => (
-            <option key={model.id} value={model.car_model_name}>
-              {model.car_model_name}
-            </option>
-          ))}
-        </select>
+        <label className={"w-full"}>
+          Бренд
+          <select
+            id={"brand"}
+            className="w-full rounded border px-4 py-2"
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}>
+            <option value={""}>Выберите бренд авто</option>
+            {brands.map((brand) => (
+              <option key={brand.id} value={brand.car_brand_name}>
+                {brand.car_brand_name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className={"w-full"}>
+          Модель
+          <select className="w-full rounded border px-4 py-2" value={model} onChange={(e) => setModel(e.target.value)}>
+            <option value={""}>Выберите модель авто</option>
+            {models.map((model) => (
+              <option key={model.id} value={model.car_model_name}>
+                {model.car_model_name}
+              </option>
+            ))}
+          </select>
+        </label>
         <label className={"w-full"}>
           Цена, руб.
           <input
@@ -157,7 +194,7 @@ const CreateCarModal = ({ isOpened, setIsOpened }) => {
                   type="text"
                   placeholder="Название"
                   className="w-full border px-4 py-3"
-                  value={item.titlle}
+                  value={item.title}
                   onChange={(e) => changeInfo("title", e.target.value, item.id)}
                 />
                 <input

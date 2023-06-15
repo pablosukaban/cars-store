@@ -5,7 +5,7 @@
 
 const Loader = () => {
   return (
-    <div className={"fixed bottom-0 left-0 right-0 top-0 z-50 grid h-screen w-screen place-items-center bg-white"}>
+    <div className={"fixed bottom-0 left-0 right-0 top-0 z-50 grid h-screen w-screen place-items-center"}>
       <div role="status">
         <svg
           aria-hidden="true"
