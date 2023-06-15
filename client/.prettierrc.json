@@ -1,0 +1,9 @@
+{
+  "tabWidth": 2,
+  "bracketSpacing": true,
+  "jsxBracketSameLine": true,
+  "printWidth": 120,
+  "proseWrap": "always",
+  "htmlWhitespaceSensitivity": "css",
+  "endOfLine": "lf"
+}
