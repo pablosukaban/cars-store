@@ -28,8 +28,8 @@ const CreateModelModal = ({ isOpened, setIsOpened }) => {
         setIsOpened(false);
       })
       .then(() => fetchModels())
-      .then((data) => dispatch(setModels(data)))
-      .then(() => setLoading(false));
+      .then((data) => dispatch(setModels(data)));
+    setLoading(false);
   };
 
   const handleContainerClick = (e) => {

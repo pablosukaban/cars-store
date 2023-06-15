@@ -18,6 +18,7 @@ class CarController {
                 car_color,
                 car_price,
                 info,
+                car_description
             } = req.body;
             const {car_image} = req.files;
 
@@ -33,6 +34,7 @@ class CarController {
                 car_color,
                 car_price,
                 car_image: fileName,
+                car_description
             });
 
             if (info) {

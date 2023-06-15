@@ -29,6 +29,7 @@ const CreateBrandModal = ({ isOpened, setIsOpened }) => {
       })
       .then(() => fetchBrands())
       .then((data) => dispatch(setBrands(data)));
+    setLoading(false);
   };
 
   const handleContainerClick = (e) => {
@@ -60,7 +61,9 @@ const CreateBrandModal = ({ isOpened, setIsOpened }) => {
           className="border px-6 py-4"
         />
         <div className="flex w-full items-center justify-between gap-4 ">
-          <button className={`bg-primaryOrange px-4 py-3 ${loading ? "cursor-wait opacity-50" : ""}`}>
+          <button
+            className={`bg-primaryOrange px-4 py-3 ${loading ? "cursor-wait opacity-50" : ""}`}
+            disabled={loading}>
             Подтвердить
           </button>
           <button type={"button"} onClick={() => setIsOpened(false)} className="">

@@ -69,18 +69,6 @@ const Car = () => {
               </div>
             </div>
             <div className="md:flex-1">
-              {/*<h1 className='text-lg font-bold md:text-xl lg:text-2xl'>*/}
-              {/*    Характеристики*/}
-              {/*</h1>*/}
-              {/*<div className='flex justify-between border-b pb-1 pt-2 lg:text-xl'>*/}
-              {/*    <span>Кузов</span>*/}
-              {/*    <span>{car.body_type}</span>*/}
-              {/*</div>*/}
-              {/*<div className='flex justify-between border-b pb-1 pt-2 lg:text-xl'>*/}
-              {/*    <span>Цвет</span>*/}
-              {/*    <span>{car.car_color}</span>*/}
-              {/*</div>*/}
-
               <h1 className="text-lg font-bold md:text-xl lg:text-2xl">Характеристики</h1>
               {car.info.length > 0 &&
                 car.info.map((item, index) => (
@@ -105,28 +93,9 @@ const Car = () => {
           </div>
           <div>
             <h1 className="mb-2 text-lg font-bold lg:text-2xl">Описание</h1>
-            <p className="lg:text-xl">
-              Toyota Camry 2018 - это изысканный седан, который сочетает в себе элегантный дизайн, просторный и
-              комфортабельный салон, а также передовые технологии. Он обеспечивает плавное и динамичное вождение,
-              благодаря различным вариантам мощных и экономичных двигателей. С системой безопасности Toyota Safety Sense
-              и современными функциями инфотейнмента, Toyota Camry 2018 предлагает уверенность и удовольствие от каждой
-              поездки. Этот автомобиль идеально подходит для тех, кто ценит стиль, комфорт и надежность.
-            </p>
+            <p className="lg:text-xl">{car.car_description}</p>
           </div>
           <div>
-            {/*<h1 className='text-lg font-bold md:text-xl lg:text-2xl'>*/}
-            {/*    Дополнительные Характеристики*/}
-            {/*</h1>*/}
-            {/*{car.info.length > 0 &&*/}
-            {/*    car.info.map((item, index) => (*/}
-            {/*        <div*/}
-            {/*            key={index}*/}
-            {/*            className='flex justify-between border-b pb-1 pt-2 lg:text-xl'*/}
-            {/*        >*/}
-            {/*            <span>{item.title}</span>*/}
-            {/*            <span>{item.description}</span>*/}
-            {/*        </div>*/}
-            {/*    ))}*/}
           </div>
           <div>
             <h1 className="mb-2 text-lg font-bold lg:text-2xl">Расположение</h1>
