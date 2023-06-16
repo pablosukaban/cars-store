@@ -107,7 +107,15 @@ const AllCars = () => {
               {/*<button className="rounded bg-secondaryGray  px-3 py-2 font-bold text-white">Поиск</button>*/}
             </div>
           </div>
-          <CarsList givenArr={cars} />
+          {cars.length > 0 ? (
+            <>
+              <CarsList givenArr={cars} />
+            </>
+          ) : (
+            <>
+              <h1 className={"text-center text-lg font-semibold"}>Ничего не найдено</h1>
+            </>
+          )}
           <Pagination />
         </div>
       </div>
