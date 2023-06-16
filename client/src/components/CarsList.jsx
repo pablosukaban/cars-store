@@ -29,7 +29,7 @@ const CarLi = ({ item, models, brands, handleItemClick }) => {
         <span className="">{item.year_of_manufacture} год</span>
       </h3>
       <h4 className="w-full px-6 text-left">{item.car_price} ₽</h4>
-      <h5 className="w-full px-6 text-left font-thin">{dayjs(item.created_at).fromNow()}</h5>
+      <h5 className="w-full px-6 text-left font-thin">{dayjs(item.createdAt).fromNow()}</h5>
     </li>
   );
 };
