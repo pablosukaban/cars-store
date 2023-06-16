@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import CarsList from "../components/CarsList";
 import SubHero from "../components/SubHero";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { getCarName, shuffleArray } from "../utils/utils.js";
@@ -95,8 +95,7 @@ const Car = () => {
             <h1 className="mb-2 text-lg font-bold lg:text-2xl">Описание</h1>
             <p className="lg:text-xl">{car.car_description}</p>
           </div>
-          <div>
-          </div>
+          <div></div>
           <div>
             <h1 className="mb-2 text-lg font-bold lg:text-2xl">Расположение</h1>
             <p className="lg:text-xl">Москва, Дмитровское ш., 157с1</p>
@@ -107,9 +106,11 @@ const Car = () => {
               onClick={() => createOrder(car.id)}>
               Оформить заказ
             </button>
-            <button className="w-full rounded bg-primaryOrange px-6 py-3 font-semibold uppercase transition hover:bg-secondaryGray hover:text-white sm:w-auto sm:px-12 sm:py-4">
-              В кредит от 4.9%
-            </button>
+            <Link to={"/credit"}>
+              <button className="w-full rounded bg-primaryOrange px-6 py-3 font-semibold uppercase transition hover:bg-secondaryGray hover:text-white sm:w-auto sm:px-12 sm:py-4">
+                В кредит от 4.9%
+              </button>
+            </Link>
             {/*   <button className='rounded bg-primaryOrange px-12 py-4 font-semibold uppercase transition hover:bg-secondaryGray hover:text-white'>
                                 Тест-драйв
                             </button> */}
