@@ -34,6 +34,19 @@ class ModelsController {
       return res.status(500).json(e);
     }
   }
+
+  async getByUserId(req, res) {
+    try {
+      const orders = await Orders.findAll({
+        where: {
+          user_id: req.params.id
+        }
+      });
+      return res.status(200).json(orders);
+    } catch (e) {
+      return res.status(500).json(e);
+    }
+  }
 }
 
 export default new ModelsController();

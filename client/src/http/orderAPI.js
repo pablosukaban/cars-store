@@ -14,3 +14,8 @@ export const removeOrder = async (id) => {
   const { data } = await $authHost.delete(`api/order/${id}`);
   return data;
 };
+
+export const getOrdersByUserId = async (id) => {
+  const { data } = await $authHost.get(`api/order/user/${id}`);
+  return data;
+}

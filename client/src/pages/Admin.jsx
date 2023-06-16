@@ -9,7 +9,7 @@ import { getAllOrders, removeOrder } from "../http/orderAPI";
 import { getAllUsers } from "../http/userAPI";
 import { deleteBrand, deleteCar, deleteModel, fetchAllCars, fetchBrands, fetchModels } from "../http/carAPI.js";
 
-const OrdersTable = ({ orders, handleRowClick }) => {
+export const OrdersTable = ({ orders, handleRowClick }) => {
   if (orders.length === 0) return <h1 className="mt-2 text-center text-2xl font-bold">Заказов нет</h1>;
 
   return (

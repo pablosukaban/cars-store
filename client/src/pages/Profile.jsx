@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { userSlice } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import Admin from "./Admin";
+import Admin, { OrdersTable } from "./Admin";
 import { changeInfo, check } from "../http/userAPI";
+import { getOrdersByUserId } from "../http/orderAPI.js";
 
 const Profile = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -15,6 +16,8 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const [isEdit, setIsEdit] = useState(false);
+
+  const [userOrders, setUserOrders] = useState([]);
 
   const [newInfo, setNewInfo] = useState({
     newFirstName: "",
@@ -70,6 +73,12 @@ const Profile = () => {
     });
   }, [dispatch, setIsAuth, setUser]);
 
+  useEffect(() => {
+    getOrdersByUserId(user.id).then((data) => {
+      setUserOrders(data);
+    });
+  }, []);
+
   if (user.role === "ADMIN") {
     return <Admin />;
   }
@@ -82,7 +91,7 @@ const Profile = () => {
         Выйти
       </button>
       <div className="flex flex-col gap-2 rounded border border-secondaryLightGray bg-white px-8 py-6 shadow-lg sm:px-16 sm:py-12">
-        <h1 className="text-center">Профиль</h1>
+        <h1 className="text-center text-lg font-semibold">Профиль</h1>
         {/*<div className="flex items-baseline gap-2 p-2 text-lg">*/}
         {/*  <span>Имя: </span>*/}
         {/*  {isEdit ? (*/}
@@ -151,10 +160,9 @@ const Profile = () => {
             </button>
           </div>
         ) : (
-          <button className="self-center" onClick={startEdit}>
-            Редактировать
-          </button>
+          <></>
         )}
+        {userOrders.length > 0 && <OrdersTable orders={userOrders} handleRowClick={() => console.log("yo")} />}
       </div>
     </div>
   );
