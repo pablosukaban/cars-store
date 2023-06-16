@@ -2,8 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { createModel, fetchModels } from "../http/carAPI";
 import { useAppDispatch } from "../hooks/redux";
 import { carSlice } from "../store/carsSlice";
+import { useSelector } from "react-redux";
 
 const CreateModelModal = ({ isOpened, setIsOpened }) => {
+  const { models } = useSelector((state) => state.car);
+
   const modalContainerRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -15,6 +18,13 @@ const CreateModelModal = ({ isOpened, setIsOpened }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const foundModel = models.find((model) => model.car_model_name.toLowerCase() === value.toLowerCase());
+
+    if (foundModel) {
+      alert("Такая модель уже существует");
+      return;
+    }
 
     if (value.length === 0) {
       alert("Введие модель");

@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { createBrand, fetchBrands } from "../http/carAPI";
 import { carSlice } from "../store/carsSlice";
 import { useAppDispatch } from "../hooks/redux";
+import { useSelector } from "react-redux";
 
 const CreateBrandModal = ({ isOpened, setIsOpened }) => {
+  const { brands } = useSelector((state) => state.car);
   const modalContainerRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -15,6 +17,13 @@ const CreateBrandModal = ({ isOpened, setIsOpened }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const foundBrand = brands.find((brand) => brand.car_brand_name.toLowerCase() === value.toLowerCase());
+
+    if (foundBrand) {
+      alert("Такой бренд уже существует");
+      return;
+    }
 
     if (value.length === 0) {
       alert("Введие бренд");
