@@ -7,7 +7,10 @@ const initialState = {
   currentPage: 1, // текущая страница
   totalCount: 0, // всего записей,
   limit: 6, // сколько записей на странице
-  // cars: new Array<CarType>(9).fill(),
+  currentModel: "",
+  currentBrand: "",
+  currentPriceFrom: "",
+  currentPriceTo: "",
 };
 
 export const carSlice = createSlice({
@@ -40,6 +43,22 @@ export const carSlice = createSlice({
     },
     setLimit: (state, action) => {
       state.limit = action.payload;
+    },
+    setCurrentModel: (state, action) => {
+      state.currentPage = 1;
+      state.currentModel = action.payload;
+    },
+    setCurrentBrand: (state, action) => {
+      state.currentPage = 1;
+      state.currentBrand = action.payload;
+    },
+    setCurrentPriceFrom: (state, action) => {
+      state.currentPage = 1;
+      state.currentPriceFrom = action.payload;
+    },
+    setCurrentPriceTo: (state, action) => {
+      state.currentPage = 1;
+      state.currentPriceTo = action.payload;
     },
   },
 });

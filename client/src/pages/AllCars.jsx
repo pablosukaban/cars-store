@@ -12,9 +12,15 @@ const imageLink =
 
 const ModelFilter = () => {
   const { models } = useAppSelector((state) => state.car);
+  const dispatch = useAppDispatch();
+  const { setCurrentModel } = carSlice.actions;
+
+  const handleChange = (e) => {
+    dispatch(setCurrentModel(e.target.value));
+  };
 
   return (
-    <select className="w-full rounded border px-4 py-2" placeholder="Модель машины">
+    <select className="w-full rounded border px-4 py-2" placeholder="Модель машины" onChange={handleChange}>
       <option value="">Все модели</option>
       {models.map((model) => (
         <option key={model.id} value={model.id}>
@@ -27,9 +33,15 @@ const ModelFilter = () => {
 
 const BrandFilter = () => {
   const { brands } = useAppSelector((state) => state.car);
+  const dispatch = useAppDispatch();
+  const { setCurrentBrand } = carSlice.actions;
+
+  const handleChange = (e) => {
+    dispatch(setCurrentBrand(e.target.value));
+  };
 
   return (
-    <select className="w-full rounded border px-4 py-2" placeholder="Марка машины">
+    <select className="w-full rounded border px-4 py-2" placeholder="Марка машины" onChange={handleChange}>
       <option value="">Все марки</option>
       {brands.map((brand) => (
         <option key={brand.id} value={brand.id}>
@@ -41,11 +53,11 @@ const BrandFilter = () => {
 };
 
 const PriceFromFilter = () => {
-  return <input className="rounded border p-2" placeholder="Цена, от" type="number" />;
+  return <input className="w-full rounded border p-2" placeholder="Цена, от" type="number" />;
 };
 
 const PriceToFilter = () => {
-  return <input className="rounded border p-2" placeholder="Цена, до" type="number" />;
+  return <input className="w-full rounded border p-2" placeholder="Цена, до" type="number" />;
 };
 
 const CarNameFilter = () => {
@@ -53,26 +65,31 @@ const CarNameFilter = () => {
 };
 
 const AllCars = () => {
-  const { cars, currentPage, limit } = useAppSelector((state) => state.car);
+  const { cars, currentPage, limit, currentModel, currentBrand } = useAppSelector((state) => state.car);
 
-  const { setBrands, setCars, setModels, setTotalCount } = carSlice.actions;
+  const { setBrands, setCars, setModels, setTotalCount, setCurrentBrand, setCurrentModel, setCurrentPage } =
+    carSlice.actions;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(setCurrentPage(1));
+    dispatch(setCurrentBrand(""));
+    dispatch(setCurrentModel(""));
+
     fetchModels().then((data) => dispatch(setModels(data)));
     fetchBrands().then((data) => dispatch(setBrands(data)));
     fetchAllCars(null, null, 1, 6).then((data) => {
       dispatch(setCars(data.rows));
       dispatch(setTotalCount(data.count));
     });
-  }, [dispatch, setBrands, setCars, setModels]);
+  }, []);
 
   useEffect(() => {
-    fetchAllCars(null, null, currentPage, limit).then((data) => {
+    fetchAllCars(currentModel, currentBrand, currentPage, limit).then((data) => {
       dispatch(setCars(data.rows));
       dispatch(setTotalCount(data.count));
     });
-  }, [currentPage]);
+  }, [currentPage, currentModel, currentBrand]);
 
   return (
     <motion.main>
@@ -81,13 +98,13 @@ const AllCars = () => {
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ">
           <div className="mb-12 flex flex-col justify-between gap-2 rounded border bg-white p-6 shadow-sm">
             <h1 className="text-center text-2xl font-bold">Фильтр</h1>
-            <CarNameFilter />
-            <div className="flex flex-col flex-wrap gap-2 md:flex-row md:items-center lg:flex-nowrap">
-              <ModelFilter />
+            {/*<CarNameFilter />*/}
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
               <BrandFilter />
+              <ModelFilter />
               <PriceFromFilter />
               <PriceToFilter />
-              <button className="rounded bg-secondaryGray  px-3 py-2 font-bold text-white">Поиск</button>
+              {/*<button className="rounded bg-secondaryGray  px-3 py-2 font-bold text-white">Поиск</button>*/}
             </div>
           </div>
           <CarsList givenArr={cars} />
