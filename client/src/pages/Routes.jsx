@@ -46,6 +46,7 @@ const Container = ({ isNeedFooter = true, children }) => {
   );
 };
 
+
 const CustomRoutes = () => {
   const { isAuth } = useAppSelector((state) => state.user);
   const location = useLocation();
@@ -142,3 +143,11 @@ const CustomRoutes = () => {
 };
 
 export default CustomRoutes;
+
+{/* <Route path="/" element={<Home />} />
+<Route path="/new" element={<NewCars />} />
+<Route path="/all" element={<AllCars />} />
+<Route path="/car/:id" element={<Car />} />
+<Route path="/credit" element={<Credit />} />
+<Route path="/login" element={<Auth />} />
+<Route path="/registration" element={<Auth />} /> */}

@@ -3,11 +3,43 @@ import BottomImage from "../components/BottomImage";
 import SubHero from "../components/SubHero";
 import { creditArr } from "../utils/data";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { useAppSelector } from "../hooks/redux.js";
+import { createCredit } from "../http/creditAPI.js";
 
 const imageLink =
   "https://static.wixstatic.com/media/548a7f_658a8daed2714200abe5ce17cd7a141f.jpg/v1/fill/w_728,h_640,al_b,q_85,enc_auto/548a7f_658a8daed2714200abe5ce17cd7a141f.jpg";
 
 const Credit = () => {
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+
+  const { user, isAuth } = useAppSelector((state) => state.user);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {
+      user_email: isAuth ? user.email : email,
+      user_name: name,
+      user_phone: phone,
+      message,
+    };
+
+    // console.log(data);
+
+    createCredit(data).then((data) => {
+      setEmail("");
+      setName("");
+      setPhone("");
+      setMessage("");
+
+      console.log(data);
+    });
+  };
+
   return (
     <motion.main>
       <SubHero imageLink={imageLink} mainText="Кредитование" />
@@ -62,21 +94,36 @@ const Credit = () => {
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 1 }}
               viewport={{ once: true }}>
-              <form action="" className="flex flex-col gap-4 p-6 md:p-12">
-                <input placeholder="Имя" required className="border border-gray-500 p-2 md:p-4 md:text-lg" />
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6 md:p-12">
                 <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Имя"
+                  required
+                  className="border border-gray-500 p-2 md:p-4 md:text-lg"
+                />
+                <input
+                  value={isAuth ? user.email : email}
+                  readOnly={isAuth ? true : false}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Эл. почта"
                   className="border border-gray-500 p-2 md:p-4 md:text-lg"
                   type="email"
                   required
                 />
                 <input
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   placeholder="Телефон"
                   className="border border-gray-500 p-2 md:p-4 md:text-lg"
                   type="tel"
                   required
                 />
-                <textarea placeholder="Сообщение" className="border border-gray-500 p-2 md:p-4 md:text-lg"></textarea>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Сообщение"
+                  className="border border-gray-500 p-2 md:p-4 md:text-lg"></textarea>
                 <button className="w-full rounded border border-transparent bg-secondaryGray px-6 py-3 font-semibold uppercase text-white transition hover:border-secondaryGray hover:bg-white hover:text-secondaryGray sm:w-auto sm:px-12 sm:py-4 md:self-end">
                   Отправить
                 </button>
