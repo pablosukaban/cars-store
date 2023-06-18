@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { getAllOrders, removeOrder } from "../http/orderAPI";
 import { getAllUsers } from "../http/userAPI";
 import { deleteBrand, deleteCar, deleteModel, fetchAllCars, fetchBrands, fetchModels } from "../http/carAPI.js";
+import { fetchCredits } from "../http/creditAPI.js";
 
 export const OrdersTable = ({ orders, handleRowClick }) => {
   if (orders.length === 0) return <h1 className="mt-2 text-center text-2xl font-bold">Заказов нет</h1>;
@@ -134,6 +135,38 @@ const ModelTable = ({ models, handleRowClick }) => {
   );
 };
 
+const CreditTable = ({ credits, handleRowClick }) => {
+  if (credits.length === 0) return <h1 className="mt-2 text-center text-2xl font-bold">Кредитов нет</h1>;
+
+  return (
+    <table>
+      <caption className="text-center">Кредиты</caption>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>user_email</th>
+          <th>user_name</th>
+          <th>user_phone</th>
+          <th>message</th>
+          <th>date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {credits.length > 0 &&
+          credits.map((item) => (
+            <tr key={item.id} onClick={() => handleRowClick(item.id)}>
+              <td>{item.id}</td>
+              <td>{item.user_email}</td>
+              <td>{item.user_name}</td>
+              <td>{item.user_phone}</td>
+              <td>{item.message}</td>
+              <td>{item.date}</td>
+            </tr>
+          ))}
+      </tbody>
+    </table>
+  );
+};
 const BrandTable = ({ brands, handleRowClick }) => {
   if (brands.length === 0) return <h1 className="mt-2 text-center text-2xl font-bold">Брендов нет</h1>;
 
@@ -170,11 +203,12 @@ const Admin = () => {
   const [brands, setBrands] = useState([]);
   const [models, setModels] = useState([]);
   const [cars, setCars] = useState([]);
+  const [credits, setCredits] = useState([]);
 
   const dispatch = useAppDispatch();
   const { setIsAuth, setUser } = userSlice.actions;
 
-  const [tabs] = useState(["users", "orders", "brands", "models", "cars"]);
+  const [tabs] = useState(["users", "orders", "brands", "models", "cars", "credits"]);
   const [currentTab, setCurrentTab] = useState("users");
 
   const changeTab = (tabName) => {
@@ -228,6 +262,7 @@ const Admin = () => {
     fetchBrands().then((res) => setBrands(res));
     fetchModels().then((res) => setModels(res));
     fetchAllCars().then((res) => setCars(res.rows));
+    fetchCredits().then((res) => setCredits(res));
   }, [brandOpened, modelOpened, carOpened]);
 
   // console.log(cars);
@@ -278,6 +313,7 @@ const Admin = () => {
             {currentTab === "brands" && <BrandTable brands={brands} handleRowClick={handleBrandRowClick} />}
             {currentTab === "models" && <ModelTable models={models} handleRowClick={handleModelRowClick} />}
             {currentTab === "cars" && <CarTable cars={cars} handleRowClick={handleCarRowClick} />}
+            {currentTab === "credits" && <CreditTable credits={credits} />}
           </div>
         </div>
       </div>
