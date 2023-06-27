@@ -40,13 +40,15 @@ export const createCar = async (car) => {
   return response.data;
 };
 
-export const fetchAllCars = async (modelId, brandId, page, limit) => {
+export const fetchAllCars = async (modelId, brandId, page, limit, priceFrom, priceTo) => {
   const response = await $host.get("/api/car", {
     params: {
       carModelId: modelId,
       carBrandId: brandId,
       page,
       limit,
+      priceFrom,
+      priceTo
     },
   });
   return response.data;

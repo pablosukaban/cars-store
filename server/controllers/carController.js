@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import path from "path";
+import { Op } from "sequelize";
 
 import Models from "../models/models.js";
 
@@ -55,7 +56,7 @@ class CarController {
   }
 
   async getAll(req, res) {
-    let { carModelId, carBrandId, limit, page } = req.query;
+    let { carModelId, carBrandId, limit, page, priceFrom, priceTo } = req.query;
 
     page = page || 1;
     limit = limit || 9;
@@ -63,13 +64,33 @@ class CarController {
 
     let cars;
 
+    const whereCondition = {};
+
+    if (priceFrom && priceTo) {
+      whereCondition.car_price = {
+        [Op.between]: [priceFrom, priceTo]
+      };
+    } else if (priceFrom) {
+      whereCondition.car_price = {
+        [Op.gte]: priceFrom
+      };
+    } else if (priceTo) {
+      whereCondition.car_price = {
+        [Op.lte]: priceTo
+      };
+    }
+
     if (!carBrandId && !carModelId) {
-      cars = await Car.findAndCountAll({ limit, offset });
+      cars = await Car.findAndCountAll({
+        where: whereCondition,
+        limit,
+        offset
+      });
     }
 
     if (carBrandId && !carModelId) {
       cars = await Car.findAndCountAll({
-        where: { carBrandId },
+        where: { carBrandId, ...whereCondition },
         limit,
         offset
       });
@@ -77,7 +98,7 @@ class CarController {
 
     if (!carBrandId && carModelId) {
       cars = await Car.findAndCountAll({
-        where: { carModelId },
+        where: { carModelId, ...whereCondition },
         limit,
         offset
       });
@@ -85,14 +106,19 @@ class CarController {
 
     if (carBrandId && carModelId) {
       cars = await Car.findAndCountAll({
-        where: { carModelId, carBrandId },
+        where: { carModelId, carBrandId, ...whereCondition },
         limit,
         offset
       });
     }
 
+    if (!cars || cars.count === 0) {
+      return res.status(404).json({ message: "No cars found." });
+    }
+
     return res.json(cars);
   }
+
 
   async getOne(req, res) {
     const { id } = req.params;

@@ -69,7 +69,7 @@ const PriceFromFilter = () => {
     debounceTimeoutRef.current = setTimeout(() => {
       dispatch(setCurrentPriceFrom(priceFrom));
       // console.log(priceFrom)
-    }, 300);
+    }, 500);
 
     return () => {
       clearTimeout(debounceTimeoutRef.current);
@@ -103,7 +103,7 @@ const PriceToFilter = () => {
   useEffect(() => {
     debounceTimeoutRef.current = setTimeout(() => {
       dispatch(setCurrentPriceTo(priceTo));
-    }, 300);
+    }, 500);
 
     return () => {
       clearTimeout(debounceTimeoutRef.current);
@@ -122,7 +122,9 @@ const PriceToFilter = () => {
 };
 
 const AllCars = () => {
-  const { cars, currentPage, limit, currentModel, currentBrand } = useAppSelector((state) => state.car);
+  const { cars, currentPage, limit, currentModel, currentBrand, currentPriceFrom, currentPriceTo } = useAppSelector(
+    (state) => state.car
+  );
 
   const { setBrands, setCars, setModels, setTotalCount, setCurrentBrand, setCurrentModel, setCurrentPage } =
     carSlice.actions;
@@ -135,18 +137,18 @@ const AllCars = () => {
 
     fetchModels().then((data) => dispatch(setModels(data)));
     fetchBrands().then((data) => dispatch(setBrands(data)));
-    fetchAllCars(null, null, 1, 6).then((data) => {
+    fetchAllCars(null, null, 1, 6, null, null).then((data) => {
       dispatch(setCars(data.rows));
       dispatch(setTotalCount(data.count));
     });
   }, []);
 
   useEffect(() => {
-    fetchAllCars(currentModel, currentBrand, currentPage, limit).then((data) => {
+    fetchAllCars(currentModel, currentBrand, currentPage, limit, currentPriceFrom, currentPriceTo).then((data) => {
       dispatch(setCars(data.rows));
       dispatch(setTotalCount(data.count));
     });
-  }, [currentPage, currentModel, currentBrand]);
+  }, [currentPage, currentModel, currentBrand, currentPriceTo, currentPriceFrom]);
 
   return (
     <motion.main>
