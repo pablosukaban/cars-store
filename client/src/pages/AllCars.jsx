@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import CarsList from "../components/CarsList";
 import SubHero from "../components/SubHero";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
@@ -53,15 +53,72 @@ const BrandFilter = () => {
 };
 
 const PriceFromFilter = () => {
-  return <input className="w-full rounded border p-2" placeholder="Цена, от" type="number" />;
+  const [priceFrom, setPriceFrom] = useState("");
+  const dispatch = useAppDispatch();
+  const { setCurrentPriceFrom } = carSlice.actions;
+
+  const debounceTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(debounceTimeoutRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    debounceTimeoutRef.current = setTimeout(() => {
+      dispatch(setCurrentPriceFrom(priceFrom));
+      // console.log(priceFrom)
+    }, 300);
+
+    return () => {
+      clearTimeout(debounceTimeoutRef.current);
+    };
+  }, [priceFrom, dispatch, setCurrentPriceFrom]);
+
+  return (
+    <input
+      value={priceFrom}
+      onChange={(e) => setPriceFrom(e.target.value)}
+      className="w-full rounded border p-2"
+      placeholder="Цена, от"
+      type="number"
+    />
+  );
 };
 
 const PriceToFilter = () => {
-  return <input className="w-full rounded border p-2" placeholder="Цена, до" type="number" />;
-};
+  const [priceTo, setPriceTo] = useState("");
+  const dispatch = useAppDispatch();
+  const { setCurrentPriceTo } = carSlice.actions;
 
-const CarNameFilter = () => {
-  return <input className="rounded border p-4" placeholder="Поиск по авто" />;
+  const debounceTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(debounceTimeoutRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    debounceTimeoutRef.current = setTimeout(() => {
+      dispatch(setCurrentPriceTo(priceTo));
+    }, 300);
+
+    return () => {
+      clearTimeout(debounceTimeoutRef.current);
+    };
+  }, [priceTo, dispatch, setCurrentPriceTo]);
+
+  return (
+    <input
+      value={priceTo}
+      onChange={(e) => setPriceTo(e.target.value)}
+      className="w-full rounded border p-2"
+      placeholder="Цена, до"
+      type="number"
+    />
+  );
 };
 
 const AllCars = () => {
@@ -98,13 +155,11 @@ const AllCars = () => {
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ">
           <div className="mb-12 flex flex-col justify-between gap-2 rounded border bg-white p-6 shadow-sm">
             <h1 className="text-center text-2xl font-bold">Фильтр</h1>
-            {/*<CarNameFilter />*/}
             <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
               <BrandFilter />
               <ModelFilter />
               <PriceFromFilter />
               <PriceToFilter />
-              {/*<button className="rounded bg-secondaryGray  px-3 py-2 font-bold text-white">Поиск</button>*/}
             </div>
           </div>
           {cars.length > 0 ? (
